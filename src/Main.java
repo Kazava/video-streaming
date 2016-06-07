@@ -1,8 +1,5 @@
-
 public class Main {
-	
-	public static void main(String[] args){
-		System.out.println("Yayyy");
-	}
-	
+	public static void main (String args[]) {
+		
+  	}
 }
