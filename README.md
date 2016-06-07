@@ -1,0 +1,2 @@
+# video-streaming
+The video streaming is based on the client server principle. It transfers the information via TCP as well as a UDP. TCP is most likely used for the controller functions and UDP for the real time video streaming. The client is supposed to provide a user friendly interface for the selection of different videos as well as a video player for watching them. Additional features like changing the color range to improve chroma subsampling, different video stream resolutions, different video compressions and a optional zig-zag-scan.
