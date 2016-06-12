@@ -17,8 +17,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A more robust daytime service, that handles TCP and UDP connections and
+ * A Server that handles TCP and UDP connections and
  * provides exception handling and error logging.
+ * 
+ * TODO: Convert byte arrays to String (String s = new String (String str = new String(bytes, "UTF-8"))
+ * 		 and handle Client requests (switch cases?)
  */
 public class Server_v2 {
   public static void main(String args[]) {
