@@ -70,9 +70,12 @@ public class Server_v2 {
 
       // Now loop forever, processing client connections
       for (;;) {
-        try { // Handle per-connection problems below
+        try { 
+          System.out.println("Entered Loop...");
+          // Handle per-connection problems below
           // Wait for a client to connect
           selector.select();
+          System.out.println("Seletor selected");
 
           // If we get here, a client has probably connected, so
           // put our response into a ByteBuffer.
@@ -97,6 +100,7 @@ public class Server_v2 {
             // Now test the key and the channel to find out
             // whether something happend on the TCP or UDP channel
             if (key.isAcceptable() && c == tcpserver) {
+              System.out.println("Connecting as TCP");
               // A client has attempted to connect via TCP.
               // Accept the connection now.
               SocketChannel client = tcpserver.accept();
@@ -108,6 +112,7 @@ public class Server_v2 {
                 System.out.println("Sent TCP");
               }
             } else if (key.isReadable() && c == udpserver) {
+                System.out.println("Connecting as UDP");
               // A UDP datagram is waiting. Receive it now,
               // noting the address it was sent from.
               SocketAddress clientAddress = udpserver.receive(receiveBuffer);
