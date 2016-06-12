@@ -31,7 +31,8 @@ public class Server {
             String root = "/res";
             URI uri = t.getRequestURI();
             log(uri.getPath());
-            File file = new File("res/index.html").getCanonicalFile();
+            
+            File file = checkURI(uri.getPath()); 
             if (!file.isFile()) {
             	// Object does not exist or is not a file: reject with 404 error.
             	String response = "404 (Not Found)\n";
@@ -53,8 +54,28 @@ public class Server {
             	os.close();
           	}
         }
+        
+        private File checkURI(String path) throws IOException {
+        	File file = null;
+        	String pathToFile = "";
+        	
+        	switch(path) {
+        		case "/" :
+        			pathToFile = "res/index.html";
+        			break;
+        		case "/test":
+        			pathToFile = "res/test.html";
+        			break;
+        		default:
+        			break;
+        	}
+        	file = new File(pathToFile).getCanonicalFile();
+        	return file;
+        }
     }
     
+    
+    // Because "System.out.println" is too long to type...
     public static void log(String str){
     	System.out.println(str);
     }
