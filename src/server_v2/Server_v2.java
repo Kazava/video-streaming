@@ -1,4 +1,7 @@
 package server_v2;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
@@ -71,11 +74,11 @@ public class Server_v2 {
       // Now loop forever, processing client connections
       for (;;) {
         try { 
-          System.out.println("Entered Loop...");
+          //debug("Entered Loop...");
           // Handle per-connection problems below
           // Wait for a client to connect
           selector.select();
-          System.out.println("Seletor selected");
+          //debug("Seletor selected");
 
           // If we get here, a client has probably connected, so
           // put our response into a ByteBuffer.
@@ -100,19 +103,29 @@ public class Server_v2 {
             // Now test the key and the channel to find out
             // whether something happend on the TCP or UDP channel
             if (key.isAcceptable() && c == tcpserver) {
-              System.out.println("Connecting as TCP");
+              //debug("Connecting as TCP");
               // A client has attempted to connect via TCP.
               // Accept the connection now.
               SocketChannel client = tcpserver.accept();
               // If we accepted the connection successfully,
-              // the send our respone back to the client.
+              // the send our response back to the client.
               if (client != null) {
-                client.write(response); // send respone
+            	// Get input byte stream from client and converts it to String for printing, 
+            	// then converts back to bytes to send back to client (echo server).
+      	        InputStreamReader ir = new InputStreamReader(client.socket().getInputStream());
+      	        //InputStream is = client.socket().getInputStream(); // only get byte stream from client
+    	        BufferedReader br = new BufferedReader(ir);
+    		    String message = br.readLine().trim();
+    	        ByteBuffer message_bytes = encoder.encode(CharBuffer.wrap("Server echoes: "+ message));
+    	          
+    		    debug("From CLient: " + message);
+    		    //client.write(response);
+                client.write(message_bytes); // send response
                 client.close(); // close connection
-                System.out.println("Sent TCP");
+                //debug("Sent TCP");
               }
             } else if (key.isReadable() && c == udpserver) {
-                System.out.println("Connecting as UDP");
+                debug("Connecting as UDP");
               // A UDP datagram is waiting. Receive it now,
               // noting the address it was sent from.
               SocketAddress clientAddress = udpserver.receive(receiveBuffer);
@@ -120,7 +133,7 @@ public class Server_v2 {
               // the date and time in a response packet.
               if (clientAddress != null) {
                 udpserver.send(response, clientAddress);
-                System.out.println("Sent UDP");
+                debug("Sent UDP");
               }
             }
           }
@@ -131,12 +144,12 @@ public class Server_v2 {
           // can configure logging for this server independently
           // of other programs.
           Logger l = Logger.getLogger(Server_v2.class.getName());
-          l.log(Level.WARNING, "IOException in DaytimeServer", e);
+          l.log(Level.WARNING, "IOException in Server_v2", e);
         } catch (Throwable t) {
           // If anything else goes wrong (out of memory, for example)
           // then log the problem and exit.
           Logger l = Logger.getLogger(Server_v2.class.getName());
-          l.log(Level.SEVERE, "FATAL error in DaytimeServer", t);
+          l.log(Level.SEVERE, "FATAL error in Server_v2", t);
           System.exit(1);
         }
       }
@@ -147,4 +160,10 @@ public class Server_v2 {
       System.exit(1);
     }
   }
+  
+  // Because "System.out.println" is too long to type...
+  public static void debug(String str){
+  	System.out.println(str);
+  }
 }
+
