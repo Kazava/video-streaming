@@ -19,15 +19,16 @@ public class Client_TCP {
 		while (true) {
 			debug("Choose connection between TCP and UDP: ");
 	        scan = new Scanner(System.in);
-	        String choice = scan.nextLine();
+	        String choice = "";
+	        choice = scan.nextLine();
 	        if (choice.equals("TCP"))
 	        	clientSocketTCP = new Socket("localhost", 8001);
 	        else if (choice.equals("UDP")) {	        	 
-	            //InetAddress IPAddress = InetAddress.getByName("localhost");
-	        	clientSocketUDP = new DatagramSocket(8001);
+	            InetAddress IPAddress = InetAddress.getByName("localhost");
+	        	clientSocketUDP = new DatagramSocket();
 	        }
 	        String clientCommand = "";
-	        clientCommand = openConnections(choice, ps, scan, isr, br, clientSocketTCP, clientSocketUDP);
+	        clientCommand = openConnections(choice, ps, scan, isr, br, clientSocketTCP, clientSocketUDP, InetAddress.getByName("localhost"));
 		    
 		    // End connection by typing "END"
 	        if (clientCommand.equals("END")) {
@@ -46,7 +47,7 @@ public class Client_TCP {
     }
 	
 	public static String openConnections(String socketType, PrintStream ps, Scanner scan, InputStreamReader isr, 
-								BufferedReader br, Socket tcp, DatagramSocket udp) throws IOException {
+								BufferedReader br, Socket tcp, DatagramSocket udp, InetAddress address) throws IOException {
 		debug("opening connections");
 		if (socketType.equals("TCP")) {
 			ps = new PrintStream(tcp.getOutputStream());
@@ -63,14 +64,23 @@ public class Client_TCP {
 		    return message;
 		}
 		if (socketType.equals("UDP")) {
+			debug("enter UDP:");
 		    byte[] receiveData = new byte[1024];
+		    byte[] sendData = new byte[1024];
+		    Scanner sc = new Scanner(System.in);
+			String cMessage = "";
+		    cMessage = scan.nextLine();
+		    sendData = cMessage.getBytes();
+		    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 8001);
+		    udp.send(sendPacket);
 		    DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 		    udp.receive(receivePacket);
 		    debug("Received udp-packet");
+		    String modifiedSentence = new String(receivePacket.getData());
+		    System.out.println("FROM SERVER:" + modifiedSentence);
 		    return "upd";
 		}
 		return "fail";
-		
 	}
 	public static void closeConnections(PrintStream ps, Scanner scan, InputStreamReader isr, 
 										BufferedReader br) throws IOException {
