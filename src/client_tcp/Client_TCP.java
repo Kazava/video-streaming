@@ -12,8 +12,9 @@ public class Client_TCP {
 		Scanner scan = null;
 		InputStreamReader isr = null;
 		BufferedReader br = null;
-		Socket clientSocketTCP = null;
 		DatagramSocket clientSocketUDP = null;
+
+		Socket clientSocketTCP = null;
 		
 		while (true) {
 			debug("Choose connection between TCP and UDP: ");
@@ -22,29 +23,13 @@ public class Client_TCP {
 	        if (choice.equals("TCP"))
 	        	clientSocketTCP = new Socket("localhost", 8001);
 	        else if (choice.equals("UDP")) {	        	 
-	            InetAddress IPAddress = InetAddress.getByName("localhost");
-	        	clientSocketUDP = new DatagramSocket(8001, IPAddress);
+	            //InetAddress IPAddress = InetAddress.getByName("localhost");
+	        	clientSocketUDP = new DatagramSocket(8001);
 	        }
 	        String clientCommand = "";
 	        clientCommand = openConnections(choice, ps, scan, isr, br, clientSocketTCP, clientSocketUDP);
-	        /*
-	        //Sends message to the server
-	        ps = new PrintStream(clientSocketTCP.getOutputStream());
-	        scan = new Scanner(System.in);
-	        String cMessage ="";
-	        isr = new InputStreamReader(clientSocketTCP.getInputStream());
-	        br = new BufferedReader(isr);
-		    cMessage = scan.nextLine();
-		    ps.println(cMessage);
-		    
-		    
-		    //Reads and displays response from server
-		    String message = br.readLine().trim();
-		    System.out.println(message);
-		    */
 		    
 		    // End connection by typing "END"
-	        
 	        if (clientCommand.equals("END")) {
 		        closeConnections(ps, scan, isr, br);
 		        clientSocketTCP.close();
@@ -58,7 +43,6 @@ public class Client_TCP {
 
 	        }
         }
-		
     }
 	
 	public static String openConnections(String socketType, PrintStream ps, Scanner scan, InputStreamReader isr, 
@@ -102,7 +86,7 @@ public class Client_TCP {
 	}
 	
 	  // Because "System.out.println" is too long to type...
-	public static void debug(String str){
+	public static void debug(String str) {
 	  	System.out.println(str);
 	}
 }
