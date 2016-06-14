@@ -74,7 +74,7 @@ public class Server_v2 {
       // Now loop forever, processing client connections
       for (;;) {
         try { 
-          //debug("Entered Loop...");
+          debug("Entered Loop...");
           // Handle per-connection problems below
           // Wait for a client to connect
           selector.select();
@@ -103,7 +103,7 @@ public class Server_v2 {
             // Now test the key and the channel to find out
             // whether something happend on the TCP or UDP channel
             if (key.isAcceptable() && c == tcpserver) {
-              //debug("Connecting as TCP");
+              debug("Connecting as TCP");
               // A client has attempted to connect via TCP.
               // Accept the connection now.
               SocketChannel client = tcpserver.accept();
