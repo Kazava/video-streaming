@@ -125,6 +125,14 @@ public class Server_v2 {
                 //debug("Sent TCP");
               }
             } else if (key.isReadable() && c == udpserver) {
+            	
+            	
+            	
+            	
+            	
+            	
+            	
+            	
                 debug("Connecting as UDP");
               // A UDP datagram is waiting. Receive it now,
               // noting the address it was sent from.

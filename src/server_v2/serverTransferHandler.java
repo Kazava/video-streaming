@@ -20,7 +20,7 @@ public class serverTransferHandler {
 		try {
 			bi = ImageIO.read(image);
 		} catch (IOException e) {
-			System.err.println("File not found!!!");
+			log("File not found!!!");
 			e.printStackTrace();
 		}
 	}
@@ -30,12 +30,16 @@ public class serverTransferHandler {
 		try {
 			ImageIO.write(bi, "PNG" , os);
 		} catch (IOException e) {
-			System.err.println("Buffered Image stream not found!!!");
+			log("Buffered Image stream not found!!!");
 			e.printStackTrace();
 		}
 		
 	}
 	
+    // Because "System.out.println" is too long to type...
+    public static void log(String str){
+    	System.out.println(str);
+    }
 	
 	
 	
