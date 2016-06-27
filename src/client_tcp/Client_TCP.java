@@ -36,13 +36,6 @@ public class Client_TCP {
 		        clientSocketTCP.close();
 		        return;
 	        }
-	        if (clientCommand.trim().equals("UDP")) {
-	        	// Close connection to switch from TCP to UDP:
-		        closeConnections(ps, scan, isr, br);
-		        clientSocketUDP.close();
-		        // Open UDP socket: 
-
-	        }
         }
     }
 	
@@ -64,7 +57,7 @@ public class Client_TCP {
 		    return message;
 		}
 		if (socketType.equals("UDP")) {
-			debug("enter UDP:");
+			debug("entered UDP, type anything:");
 		    byte[] receiveData = new byte[1024];
 		    byte[] sendData = new byte[1024];
 		    Scanner sc = new Scanner(System.in);
@@ -80,7 +73,8 @@ public class Client_TCP {
 		    System.out.println("FROM SERVER:" + modifiedSentence);
 		    return "upd";
 		}
-		return "fail";
+		else 
+			return "fail";
 	}
 	public static void closeConnections(PrintStream ps, Scanner scan, InputStreamReader isr, 
 										BufferedReader br) throws IOException {
