@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 public class Main {
 	public static void main(String [] args)
 	{
-		VideoServer vs = new VideoServer(8001);
+		ServerInterface vs = new VideoServer(8001, 8002);
 		vs.setupServer();
 		for(;;) {
 			try {

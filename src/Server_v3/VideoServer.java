@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 
 public class VideoServer extends Server {
 	
-	VideoServer(int port) {
-		super(port);
+	VideoServer(int tcpPort, int udpPort) {
+		super(tcpPort, udpPort);
 	}
 	
 	public void processMessage() throws IOException {
