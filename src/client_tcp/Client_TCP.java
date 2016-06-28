@@ -64,7 +64,7 @@ public class Client_TCP {
 		    return message;
 		}
 		if (socketType.equals("UDP")) {
-			debug("enter UDP:");
+			debug("enter UDP type anything:");
 		    byte[] receiveData = new byte[1024];
 		    byte[] sendData = new byte[1024];
 		    Scanner sc = new Scanner(System.in);
