@@ -1,4 +1,4 @@
-package connect;
+package client.connect;
 
 public interface Client {
 

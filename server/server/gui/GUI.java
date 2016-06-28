@@ -1,4 +1,4 @@
-package gui;
+package server.gui;
 
 public interface GUI {
 

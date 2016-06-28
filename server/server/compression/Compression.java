@@ -1,4 +1,4 @@
-package compression;
+package server.compression;
 
 public interface Compression {
 

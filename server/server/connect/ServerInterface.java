@@ -1,4 +1,4 @@
-package connect;
+package server.connect;
 
 import java.io.IOException;
 
