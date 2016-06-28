@@ -56,7 +56,7 @@ public abstract class Server implements ServerInterface {
     	}
     	this.receiveBuffer = ByteBuffer.allocate(0);
     	System.out.println("(Server) set to UDP-Port: " + this.udpPort);
-    	System.out.println("(Server) set to TDP-Port: " + this.tcpPort);
+    	System.out.println("(Server) set to TCP-Port: " + this.tcpPort);
 
     }
     

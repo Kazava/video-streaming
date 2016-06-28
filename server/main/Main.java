@@ -1,5 +1,8 @@
 package main;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import compression.Compression;
 import connect.ServerInterface;
 import connect.VideoServer;
@@ -16,22 +19,23 @@ public class Main {
 	
 	public static void main(String[] args){
 		
-		video = new Video("video/example.avi"); //TODO: class: AviVideo
+		//video = new Video("video/example.avi"); //TODO: class: AviVideo
 		
 		vs = new VideoServer(8000, 8001);
+			try {
+		vs.run();	
+		} catch (java.io.IOException e) {
+	          Logger l = Logger.getLogger(Main.class.getName());
+	          l.log(Level.WARNING, "IOException in Main", e);
+	    } catch (Throwable t) {
+	          Logger l = Logger.getLogger(Main.class.getName());
+	          l.log(Level.SEVERE, "FATAL error in Main", t);
+	          System.exit(1);
+	    }
 		
-		vs.run();
+		//gui = new GUI();
 		
-		gui = new GUI();
-		
-		gui.show();
-		
-		
-		
-		
-		
-		
-		
+		//gui.show();
 	}
 	
 
