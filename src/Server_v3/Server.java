@@ -20,10 +20,12 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Server {
-    int port;
+public abstract class Server implements ServerInterface {
+    int tcpPort;
+    int udpPort;
 	CharsetEncoder encoder;
-    SocketAddress localport;
+    SocketAddress localTcpPort;
+    SocketAddress localUdpPort;
     ServerSocketChannel tcpserver;
     DatagramChannel udpserver;
     Selector selector;
@@ -34,8 +36,9 @@ public class Server {
      * Initialize the server with port of choice.
      * @params port		Port of choice
      */
-    Server(int port) {
-    	this.port = port;
+    Server(int tcpPort, int udpPort) {
+    	this.tcpPort = tcpPort;
+    	this.udpPort = udpPort;
     }
     
     /*
@@ -52,20 +55,23 @@ public class Server {
     	      System.exit(1);
     	}
     	this.receiveBuffer = ByteBuffer.allocate(0);
-    	System.out.println("(Server) set to Port: " + this.port);
+    	System.out.println("(Server) set to UDP-Port: " + this.udpPort);
+    	System.out.println("(Server) set to TDP-Port: " + this.tcpPort);
+
     }
     
     /*
      * Set up port, TCP and UDP channels.
      */
-    private void configurePort() throws IOException {
-    	this.localport = new InetSocketAddress(this.port);
-    	
+    public void configurePort() throws IOException {
+    	this.localTcpPort = new InetSocketAddress(this.tcpPort);
+    	this.localUdpPort = new InetSocketAddress(this.udpPort);
+    
     	this.tcpserver = ServerSocketChannel.open();
-        this.tcpserver.socket().bind(this.localport);
+        this.tcpserver.socket().bind(this.localTcpPort);
         
         this.udpserver = DatagramChannel.open();
-        this.udpserver.socket().bind(this.localport);
+        this.udpserver.socket().bind(this.localUdpPort);
         
         this.tcpserver.configureBlocking(false);
         this.udpserver.configureBlocking(false);
@@ -75,9 +81,11 @@ public class Server {
      * Set up the selector so that it can dynamically choose
      * between TCP and UDP channels on one port.
      */
-    private void configureSelector() throws IOException {
+    public void configureSelector() throws IOException {
     	this.selector = Selector.open();
     	this.tcpserver.register(selector, SelectionKey.OP_ACCEPT);
         this.udpserver.register(selector, SelectionKey.OP_READ);
     }
+    
+    abstract public void processMessage() throws IOException;
 }
