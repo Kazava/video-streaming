@@ -43,7 +43,10 @@ public class VideoClient extends Client {
 			myMessage =  "Pause it now!";
 			break;
 		case STOP:
-			myMessage =  "Just stop it!";
+			myMessage =  "STOP! Hammer-time!";
+			break;
+		case MEDIA_REQUEST:
+			myMessage = "I want it ALL!";
 			break;
 		default:
 			myMessage =  "Wupps!";
