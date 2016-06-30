@@ -22,7 +22,7 @@ public class Main {
 		
 		//video = new Video("video/example.avi"); //TODO: class: AviVideo
 		
-		vs = new VideoServer(8000, 8001);
+		vs = new VideoServer(8001);
 		try {
 			vs.run();	
 		} catch (java.io.IOException e) {

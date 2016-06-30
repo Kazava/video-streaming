@@ -23,10 +23,17 @@ public class Client_TCP {
 	        choice = scan.nextLine();
 	        if (choice.equals("TCP"))
 	        	clientSocketTCP = new Socket("localhost", 8001);
-	        else if (choice.equals("UDP")) {	        	 
+	        if (choice.equals("UDP")) {	        	 
 	            InetAddress IPAddress = InetAddress.getByName("localhost");
 	        	clientSocketUDP = new DatagramSocket();
 	        }
+	        // ---
+	        else if (choice.equals("TCP+UDP"))  {
+	        	clientSocketTCP = new Socket("localhost", 8002);  // connect as TCP
+	        	InetAddress IPAddress = InetAddress.getByName("localhost");
+	        	clientSocketUDP = new DatagramSocket();
+	        }
+	        // ---
 	        String clientCommand = "";
 	        clientCommand = openConnections(choice, ps, scan, isr, br, clientSocketTCP, clientSocketUDP, InetAddress.getByName("localhost"));
 		    
@@ -44,7 +51,7 @@ public class Client_TCP {
 		debug("opening connections");
 		if (socketType.equals("TCP")) {
 			ps = new PrintStream(tcp.getOutputStream());
-			debug("Write anything");
+			debug("entered TCP, Write anything");
 			Scanner sc = new Scanner(System.in);
 			String cMessage = "";
 		    cMessage = scan.nextLine();
@@ -72,6 +79,30 @@ public class Client_TCP {
 		    String modifiedSentence = new String(receivePacket.getData());
 		    System.out.println("FROM SERVER:" + modifiedSentence);
 		    return "upd";
+		}
+		if (socketType.equals("TCP+UDP")) {
+			debug("entered the magical-zone, type something:");
+			
+			byte[] receiveData = new byte[1024];
+		    byte[] sendData = new byte[1024];
+			
+			Scanner sc = new Scanner(System.in);
+			String cMessage = "";
+		    cMessage = scan.nextLine();
+		    
+		    sendData = cMessage.getBytes();
+		    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 8001);
+		    udp.send(sendPacket);
+		    
+		    ps = new PrintStream(tcp.getOutputStream());		// setup TCP receive and send
+			isr = new InputStreamReader(tcp.getInputStream());
+			
+		    debug("Exit the zone? Type Anything.");
+			Scanner sc2 = new Scanner(System.in);
+
+
+
+			return "tcp+udp";
 		}
 		else 
 			return "fail";

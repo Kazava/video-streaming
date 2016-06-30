@@ -77,7 +77,7 @@ public class Server_v2 {
           debug("Entered Loop...");
           // Handle per-connection problems below
           // Wait for a client to connect
-          selector.select();
+          selector.select();  										//TODO: .selectNow() --> use Non-blocking?
           //debug("Seletor selected");
 
           // If we get here, a client has probably connected, so
@@ -102,11 +102,12 @@ public class Server_v2 {
 
             // Now test the key and the channel to find out
             // whether something happend on the TCP or UDP channel
-            if (key.isAcceptable() && c == tcpserver) {
+            if (key.isAcceptable() && c == tcpserver) {				// TODO: Thread here??
               debug("Connecting as TCP");
               // A client has attempted to connect via TCP.
               // Accept the connection now.
               SocketChannel client = tcpserver.accept();
+              debug("TCP accepted!");
               // If we accepted the connection successfully,
               // the send our response back to the client.
               if (client != null) {
@@ -124,7 +125,7 @@ public class Server_v2 {
                 client.close(); // close connection
                 //debug("Sent TCP");
               }
-            } else if (key.isReadable() && c == udpserver) {
+            } else if (key.isReadable() && c == udpserver) {		// TODO: 2nd Thread here?
             	
             	
             	

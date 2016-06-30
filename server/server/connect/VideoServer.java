@@ -11,13 +11,13 @@ import java.util.logging.Logger;
 
 public class VideoServer extends Server {
 	
-	public VideoServer(int tcpPort, int udpPort) {
-		super(tcpPort, udpPort);
+	public VideoServer(int tcpPort) {
+		super(tcpPort);
 	}
 	
 	public void processMessage() throws IOException {
-		debug("Entered Loop...");
-        selector.select();
+		//debug("Entered Loop...");
+        selector.selectNow();  // non-blocking
         Set<SelectionKey> keys = selector.selectedKeys();
 
         for (Iterator<SelectionKey> i = keys.iterator(); i.hasNext();) {
@@ -27,14 +27,20 @@ public class VideoServer extends Server {
 		
 		    if (key.isAcceptable() && c == tcpserver) {
 		        debug("Connecting as TCP");
-		        TcpHandler tcpHandler = new TcpHandler(tcpserver, encoder);
-		        tcpHandler.echoClientResponse();
-		        debug("Sent TCP");            
-		    } else if (key.isReadable() && c == udpserver) {
+		        //TcpHandler tcpHandler = new TcpHandler(tcpserver, encoder);
+		        (new Thread(new TcpHandler(tcpserver, encoder))).start();
+		        //tcpHandler.echoClientResponse();
+		        debug("Sent TCP");  
+		    } else {
+		    	debug("Not a TCP-connection!!!");
+		    /*
+		    else if (key.isReadable() && c == udpserver) {
 		        debug("Connecting as UDP");
-		        UdpHandler udpHandler = new UdpHandler(udpserver, encoder, receiveBuffer);
-		        udpHandler.echoClientResponse();
+		        //UdpHandler udpHandler = new UdpHandler(udpserver, encoder, receiveBuffer);
+		        (new Thread(new UdpHandler(udpserver, encoder, receiveBuffer))).start();
+		        //udpHandler.echoClientResponse();
 		        debug("Sent UDP");  
+		        */
         	}
         }
 	}

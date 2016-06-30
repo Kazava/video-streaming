@@ -11,7 +11,7 @@ import java.nio.charset.CharsetEncoder;
 import java.nio.charset.StandardCharsets;
 
 
-public class UdpHandler {
+public class UdpHandler implements Runnable{
 	SocketAddress clientAddress;
 	String message;
 	ByteBuffer message_bytes;
@@ -29,6 +29,7 @@ public class UdpHandler {
   	    if (clientAddress != null) {
   		    setMemberVariables(this.message_bytes, encoder);
   	    }
+  	    System.out.println("UDP accepted!");
 	}
 	
 	public void setMemberVariables(ByteBuffer receiveBuffer, CharsetEncoder encoder) 
@@ -42,5 +43,17 @@ public class UdpHandler {
 	
 	public void echoClientResponse() throws IOException {
         this.udpserver.send(this.message_bytes, this.clientAddress);
+  	    System.out.println("UDP echoed!");
+
+	}
+
+	public void run() {
+		// TODO Auto-generated method stub
+		try {
+			echoClientResponse();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

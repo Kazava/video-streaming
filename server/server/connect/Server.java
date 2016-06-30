@@ -21,24 +21,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class Server implements ServerInterface {
-    int tcpPort;
-    int udpPort;
+    int port;
 	CharsetEncoder encoder;
-    SocketAddress localTcpPort;
-    SocketAddress localUdpPort;
+    SocketAddress localPort;
     ServerSocketChannel tcpserver;
-    DatagramChannel udpserver;
     Selector selector;
-    ByteBuffer receiveBuffer;
     
     /*
      * Constructor:
-     * Initialize the server with port of choice.
+     * Initialize the server with tcp port of choice.
      * @params port		Port of choice
      */
-    Server(int tcpPort, int udpPort) {
-    	this.tcpPort = tcpPort;
-    	this.udpPort = udpPort;
+    Server(int port) {
+    	this.port = port;
     }
     
     /*
@@ -54,27 +49,17 @@ public abstract class Server implements ServerInterface {
     	      System.err.println(e);
     	      System.exit(1);
     	}
-    	this.receiveBuffer = ByteBuffer.allocate(0);
-    	System.out.println("(Server) set to UDP-Port: " + this.udpPort);
-    	System.out.println("(Server) set to TCP-Port: " + this.tcpPort);
-
+    	System.out.println("(Server) set to TCP-Port: " + this.port);
     }
     
     /*
      * Set up port, TCP and UDP channels.
      */
     public void configurePort() throws IOException {
-    	this.localTcpPort = new InetSocketAddress(this.tcpPort);
-    	this.localUdpPort = new InetSocketAddress(this.udpPort);
-    
+    	this.localPort = new InetSocketAddress(this.port);
     	this.tcpserver = ServerSocketChannel.open();
-        this.tcpserver.socket().bind(this.localTcpPort);
-        
-        this.udpserver = DatagramChannel.open();
-        this.udpserver.socket().bind(this.localUdpPort);
-        
+        this.tcpserver.socket().bind(this.localPort);      
         this.tcpserver.configureBlocking(false);
-        this.udpserver.configureBlocking(false);
     }
     
     /*
@@ -84,7 +69,6 @@ public abstract class Server implements ServerInterface {
     public void configureSelector() throws IOException {
     	this.selector = Selector.open();
     	this.tcpserver.register(selector, SelectionKey.OP_ACCEPT);
-        this.udpserver.register(selector, SelectionKey.OP_READ);
     }
     
     public void run() throws IOException {
