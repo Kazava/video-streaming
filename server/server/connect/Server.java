@@ -22,7 +22,6 @@ import java.util.logging.Logger;
 
 public abstract class Server implements ServerInterface {
     int port;
-	CharsetEncoder encoder;
     SocketAddress localPort;
     ServerSocketChannel tcpserver;
     Selector selector;
@@ -41,7 +40,6 @@ public abstract class Server implements ServerInterface {
      * for the chosen port.
      */
     public void setupServer() {
-    	this.encoder = Charset.forName("US-ASCII").newEncoder();
     	try {
 	    	configurePort();
 	    	configureSelector();
@@ -49,11 +47,11 @@ public abstract class Server implements ServerInterface {
     	      System.err.println(e);
     	      System.exit(1);
     	}
-    	System.out.println("(Server) set to TCP-Port: " + this.port);
+    	debug("(Server) set to TCP-Port: " + this.port);
     }
     
     /*
-     * Set up port, TCP and UDP channels.
+     * Set up non-blocking TCP channel.
      */
     public void configurePort() throws IOException {
     	this.localPort = new InetSocketAddress(this.port);
@@ -70,6 +68,10 @@ public abstract class Server implements ServerInterface {
     	this.selector = Selector.open();
     	this.tcpserver.register(selector, SelectionKey.OP_ACCEPT);
     }
+    
+	public static void debug(String str) {
+	 	System.out.println(str);
+	}
     
     public void run() throws IOException {
     	setupServer();

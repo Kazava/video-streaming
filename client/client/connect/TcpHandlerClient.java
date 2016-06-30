@@ -7,7 +7,7 @@ import java.nio.channels.SocketChannel;
 
 public class TcpHandlerClient implements Runnable {
 	String message;
-	ByteBuffer buf;
+	ByteBuffer messageBytes;
 	SocketChannel client;
 	
 	TcpHandlerClient(String message, SocketChannel tcp) {
@@ -17,17 +17,18 @@ public class TcpHandlerClient implements Runnable {
 	
 	public void writeCommand() throws IOException {
     	this.client = SocketChannel.open(new InetSocketAddress("localhost", 8001));	// connect to server
-		this.buf = ByteBuffer.allocate(48);
-		this.buf.clear();
-		this.buf.put(message.getBytes());
+		this.messageBytes = ByteBuffer.allocate(48);
+		this.messageBytes.clear();
+		this.messageBytes.put(this.message.getBytes());
 		
-		this.buf.flip();
+		this.messageBytes.flip();
 
-		while(this.buf.hasRemaining()) {
-		    client.write(this.buf);
+		while(this.messageBytes.hasRemaining()) {
+		    client.write(this.messageBytes);
 		}
+		
 		this.client.close();
-		System.out.println("Command sent!");
+		System.out.println("Command sent is: " + this.message);
 	}
 	
 	public void run() {

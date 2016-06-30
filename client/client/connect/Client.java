@@ -33,8 +33,8 @@ abstract class Client implements ClientInterface {
 	public void setupClient() {
 		this.encoder = Charset.forName("US-ASCII").newEncoder();
     	try {
-	    	//configurePort();
-	    	//configureSelector();
+	    	configurePort();
+	    	configureSelector();
     	} catch (Exception e) {
     		System.out.println("oops");
     	    System.err.println(e);
@@ -45,10 +45,6 @@ abstract class Client implements ClientInterface {
 	}
 	
 	public void configurePort() throws IOException {
-		System.out.println("configuring...");
-    	this.tcpChannel = SocketChannel.open(new InetSocketAddress("localhost",this.tcpPort));	// connect to server
-        this.tcpChannel.configureBlocking(false);
-        
 		this.udpChannel = DatagramChannel.open();
 		this.udpChannel.socket().bind(new InetSocketAddress(udpPort));
         this.udpChannel.configureBlocking(false);
@@ -57,17 +53,15 @@ abstract class Client implements ClientInterface {
 
 	public void configureSelector() throws IOException {
 		this.selector = Selector.open();
-    	this.tcpChannel.register(selector, SelectionKey.OP_ACCEPT);
         this.udpChannel.register(selector, SelectionKey.OP_READ);
         System.out.println("Selector set!");
 	}
 	
-	public void connectTcp() throws IOException {
-    	tcpChannel.connect(new InetSocketAddress("localhost", tcpPort));
+	public static void debug(String str) {
+	 	System.out.println(str);
 	}
 	
 	public void run() throws IOException {
-		// TODO Auto-generated method stub
 		setupClient();
 		for(;;){
 			processMessage();

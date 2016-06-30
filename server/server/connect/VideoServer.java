@@ -21,32 +21,19 @@ public class VideoServer extends Server {
         Set<SelectionKey> keys = selector.selectedKeys();
 
         for (Iterator<SelectionKey> i = keys.iterator(); i.hasNext();) {
-		    SelectionKey key = (SelectionKey) i.next();   // Get a key from the set, and remove it from the set
+		    SelectionKey key = (SelectionKey) i.next();
 		    i.remove();
-		    Channel c = (Channel) key.channel();          // Get the channel associated with the key
+		    Channel c = (Channel) key.channel();        
 		
 		    if (key.isAcceptable() && c == tcpserver) {
 		        debug("Connecting as TCP");
-		        //TcpHandler tcpHandler = new TcpHandler(tcpserver, encoder);
-		        (new Thread(new TcpHandler(tcpserver, encoder))).start();
-		        //tcpHandler.echoClientResponse();
-		        debug("Sent TCP");  
+		        (new Thread(new TcpHandler(tcpserver))).start();
 		    } else {
 		    	debug("Not a TCP-connection!!!");
-		    /*
-		    else if (key.isReadable() && c == udpserver) {
-		        debug("Connecting as UDP");
-		        //UdpHandler udpHandler = new UdpHandler(udpserver, encoder, receiveBuffer);
-		        (new Thread(new UdpHandler(udpserver, encoder, receiveBuffer))).start();
-		        //udpHandler.echoClientResponse();
-		        debug("Sent UDP");  
-		        */
         	}
         }
 	}
 	
-	public static void debug(String str) {
-	 	System.out.println(str);
-	}
+
 
 }

@@ -10,7 +10,9 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.StandardCharsets;
 
-
+/*
+ * NOT USED ANYMORE!!!
+ */
 public class UdpHandler implements Runnable{
 	SocketAddress clientAddress;
 	String message;

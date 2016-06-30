@@ -2,7 +2,6 @@ package server.connect;
 
 import java.io.IOException;
 
-// Für Sublime
 public interface ServerInterface {
 
     public void setupServer();

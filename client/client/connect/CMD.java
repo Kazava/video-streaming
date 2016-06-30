@@ -1,5 +1,5 @@
 package client.connect;
 
-public enum ClientTcpCommands {
+public enum CMD {
 	PLAY, PAUSE, STOP, MEDIA_REQUEST
 }
