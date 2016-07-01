@@ -1,5 +1,6 @@
-package client.gui;
+package server.gui;
 
+import server.gui.Gui;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -26,7 +27,7 @@ public class Gui extends Application{
 		
 		this.stage = primaryStage;
 		
-		stage.setTitle("Video Player by Carlos & Thilo");
+		stage.setTitle("Video Server by Carlos & Thilo");
 		stage.centerOnScreen();
 		
 		/**
@@ -41,7 +42,7 @@ public class Gui extends Application{
 		toolbar.setMinHeight(50);
 		toolbar.getStyleClass().add("toolbar");
 		
-		buttonNames = new String[]{"Play/Pause", "Stop", "Next"};
+		buttonNames = new String[]{"Start server", "Shut down server"};
 		buttons = new Button[buttonNames.length];
 		
 		for(int i = 0; i < buttonNames.length; i++){
@@ -51,9 +52,6 @@ public class Gui extends Application{
 	        toolbar.getChildren().add(buttons[i]);
 		}
 		
-		StackPane videoStack = new StackPane();
-		videoStack.setMinSize(400, 400);
-		
 		/**
 		 * The <code>BorderPane</code> is responsible for the main
 		 * structure of the window. The border pain seperates the stage
@@ -62,7 +60,6 @@ public class Gui extends Application{
 		BorderPane layout = new BorderPane();
 		layout.getStyleClass().add("layout");
 		layout.setTop(toolbar);
-		layout.setCenter(videoStack);
 		
 		this.scene = new Scene(layout);
         scene.getStylesheets().clear();
@@ -75,8 +72,6 @@ public class Gui extends Application{
 		
 		stage.setScene(scene);
 		stage.show();
-		
-		
 	}
 	
 	/*
