@@ -23,9 +23,9 @@ public class VideoClient extends Client {
 		System.out.println("(New Thread) Write anything to proceed: ");
 		@SuppressWarnings("unused")
 		String tmp = "";
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
-		tmp = scan.nextLine();
-		scan.close();
+		tmp = scan.next();
 		
 		// Write TCP enum:
 		(new Thread(new TcpHandlerClient(cmd, tcpChannel))).start();
