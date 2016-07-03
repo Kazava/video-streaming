@@ -3,11 +3,8 @@ package server.connect;
 import java.io.IOException;
 import java.nio.channels.Channel;
 import java.nio.channels.SelectionKey;
-import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class VideoServer extends Server {
 	
@@ -27,7 +24,7 @@ public class VideoServer extends Server {
 		
 		    if (key.isAcceptable() && c == tcpserver) {
 		        debug("Connecting as TCP");
-		        (new Thread(new TcpHandler(tcpserver))).start();
+		        (new Thread(new TcpHandler(tcpserver))).start(); // TCP-Read enum, UDP-Write String
 		    } else {
 		    	debug("Not a TCP-connection!!!");
         	}

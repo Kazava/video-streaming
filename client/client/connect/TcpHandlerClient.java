@@ -6,34 +6,31 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 public class TcpHandlerClient implements Runnable {
-	String message;
+	CMD cmd;
 	ByteBuffer messageBytes;
 	SocketChannel client;
 	
-	TcpHandlerClient(String message, SocketChannel tcp) {
+	TcpHandlerClient(CMD cmd, SocketChannel tcp) {
 		this.client = tcp;
-		this.message = message;
+		this.cmd = cmd;
 	}
 	
-	public void writeCommand() throws IOException {
+	public void writeCommandToClient() throws IOException {
     	this.client = SocketChannel.open(new InetSocketAddress("localhost", 8001));	// connect to server
-		this.messageBytes = ByteBuffer.allocate(48);
+		this.messageBytes = ByteBuffer.allocate(1);
 		this.messageBytes.clear();
-		this.messageBytes.put(this.message.getBytes());
-		
+		this.messageBytes.put(new byte[]{(byte)this.cmd.ordinal()});	
 		this.messageBytes.flip();
-
 		while(this.messageBytes.hasRemaining()) {
 		    client.write(this.messageBytes);
 		}
-		
 		this.client.close();
-		System.out.println("Command sent is: " + this.message);
+		System.out.println("Command sent is: " + this.cmd.name());
 	}
 	
 	public void run() {
 		try {
-			writeCommand();
+			writeCommandToClient();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

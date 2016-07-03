@@ -23,7 +23,7 @@ public class Main {
 		
 		//video = new Video("video/example.avi"); //TODO: class: AviVideo
 		
-		Application.launch(Gui.class, args);
+		//Application.launch(Gui.class, args);
 		
 		vs = new VideoServer(8001);
 		try {

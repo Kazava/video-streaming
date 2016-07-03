@@ -1,24 +1,10 @@
 package server.connect;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.channels.Channel;
-import java.nio.channels.DatagramChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public abstract class Server implements ServerInterface {
     int port;
@@ -75,7 +61,7 @@ public abstract class Server implements ServerInterface {
     
     public void run() throws IOException {
     	setupServer();
-    	for(;;) { // TODO: Exit for method, Threads
+    	for(;;) {
     		processMessage();
     	}
     }
