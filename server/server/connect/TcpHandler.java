@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.concurrent.Callable;
 
 /*
  * TCP connection with client. Reads Clients commands and instantiates UdpHandler when
@@ -57,6 +58,11 @@ public class TcpHandler implements Runnable {
 	        System.out.println("Server UDP response sent! Sent: " + newMessage);
 		}
 	}
+	
+	public String writeMessage() {
+		
+		return "lol";
+	}
 
 	public void run() {
 		try {
@@ -67,4 +73,6 @@ public class TcpHandler implements Runnable {
 			e.printStackTrace();
 		}
 	}
+
+
 }

@@ -38,7 +38,7 @@ public class UdpHandler implements Runnable{
 								   throws UnsupportedEncodingException, CharacterCodingException {
 		this.charBuffer = StandardCharsets.US_ASCII.decode(this.message_bytes);
 		this.message = this.charBuffer.toString();
-		System.out.println("---->" + this.message); // TODO: make Client send UDP with nio DatagramChannel
+		System.out.println("---->" + this.message); 
 
         this.message_bytes = encoder.encode(CharBuffer.wrap("Server echoes: "+ this.message));
 	}
@@ -50,11 +50,9 @@ public class UdpHandler implements Runnable{
 	}
 
 	public void run() {
-		// TODO Auto-generated method stub
 		try {
 			echoClientResponse();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
