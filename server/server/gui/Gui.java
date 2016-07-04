@@ -3,6 +3,8 @@ package server.gui;
 import server.gui.Gui;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -49,7 +51,30 @@ public class Gui extends Application{
 			buttons[i] = new Button(buttonNames[i]);
 			
 			GridPane.setConstraints(buttons[i], i, 0);
-	        toolbar.getChildren().add(buttons[i]);
+	        toolbar.getChildren().add(buttons[i]);		
+	        
+	        switch(buttons[i].getText()) {
+	        case "Start server":
+	        	
+		        buttons[i].setOnAction(new EventHandler<ActionEvent>() {
+	    			public void handle(ActionEvent event) {
+	    				// TODO: start process message
+	    				System.out.println("Hello");
+	    			}
+		    	});
+		        break;
+	        case "Shut down server":
+	            buttons[i].setOnAction(new EventHandler<ActionEvent>() {
+	    			public void handle(ActionEvent event) {
+	    				// TODO: shut down server
+	    				System.out.println("World");
+	    			}
+		    	});
+		        break;
+		    default:
+				System.out.println("Hoopla!");
+				break;
+	        }  
 		}
 		
 		/**
