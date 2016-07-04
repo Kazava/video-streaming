@@ -21,8 +21,14 @@ public class TcpHandler implements Runnable {
 	ByteBuffer messageBytes;
 	SocketChannel client;
 	
+
 	TcpHandler(ServerSocketChannel tcpserver) throws IOException {
 		acceptTcpConnection(tcpserver);
+	}
+	
+	TcpHandler(String udpMessage) {
+		this.messageString = udpMessage;
+		System.out.println("Preparing to shutdown");
 	}
 	
 	public void acceptTcpConnection(ServerSocketChannel tcpserver) throws IOException {
@@ -47,7 +53,7 @@ public class TcpHandler implements Runnable {
 	public void writeUdpMessage() throws IOException, InterruptedException {
 		if (messageString != "") { 
 			DatagramChannel channel = DatagramChannel.open();
-			channel.socket().bind(new InetSocketAddress(9999)); // Random address, not sure if needed
+			//channel.socket().bind(new InetSocketAddress(9999)); // Random address, not sure if needed
 			ByteBuffer buf = ByteBuffer.allocate(48);
 			buf.clear();
 			buf.put(messageString.getBytes());

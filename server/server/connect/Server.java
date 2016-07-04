@@ -6,7 +6,8 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 
-public abstract class Server implements ServerInterface {
+public abstract class Server implements ServerInterface, Runnable {
+	boolean isAlive;
     int port;
     SocketAddress localPort;
     ServerSocketChannel tcpserver;
@@ -19,6 +20,8 @@ public abstract class Server implements ServerInterface {
      */
     Server(int port) {
     	this.port = port;
+    	this.isAlive = true;
+    	setupServer();
     }
     
     /*
@@ -59,12 +62,18 @@ public abstract class Server implements ServerInterface {
 	 	System.out.println(str);
 	}
     
-    public void run() throws IOException {
-    	setupServer();
-    	for(;;) {
-    		processMessage();
+    public void run() {
+    	while (isAlive) {
+	    	try {
+				processMessage();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
     	}
+    	
     }
     
+	abstract public void shutdown();   
+	
     abstract public void processMessage() throws IOException;
 }

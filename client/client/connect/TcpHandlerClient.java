@@ -15,7 +15,7 @@ public class TcpHandlerClient implements Runnable {
 		this.cmd = cmd;
 	}
 	
-	public void writeCommandToClient() throws IOException {
+	public void writeCommandToServer() throws IOException {
     	this.client = SocketChannel.open(new InetSocketAddress("localhost", 8001));	// connect to server
 		this.messageBytes = ByteBuffer.allocate(1);
 		this.messageBytes.clear();
@@ -30,7 +30,7 @@ public class TcpHandlerClient implements Runnable {
 	
 	public void run() {
 		try {
-			writeCommandToClient();
+			writeCommandToServer();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

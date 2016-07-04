@@ -13,7 +13,6 @@ import server.video.Video;
 
 public class Main {
 	
-	static ServerInterface vs;
 	static Gui gui;
 	static Compression comppression;
 	static Video video;
@@ -24,18 +23,6 @@ public class Main {
 		//video = new Video("video/example.avi"); //TODO: class: AviVideo
 		
 		Application.launch(Gui.class, args);
-		
-		vs = new VideoServer(8001);
-		try {
-			vs.run();	
-		} catch (java.io.IOException e) {
-	          Logger l = Logger.getLogger(Main.class.getName());
-	          l.log(Level.WARNING, "IOException in Main", e);
-	    } catch (Throwable t) {
-	          Logger l = Logger.getLogger(Main.class.getName());
-	          l.log(Level.SEVERE, "FATAL error in Main", t);
-	          System.exit(1);
-	    }
 	}
 	
 

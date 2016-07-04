@@ -31,6 +31,15 @@ public class VideoServer extends Server {
         }
 	}
 	
-
-
+	public void shutdown() {
+		this.isAlive = false;
+		TcpHandler tcp = new TcpHandler("--> Server has disconnected.");
+		try {
+			tcp.writeUdpMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 }

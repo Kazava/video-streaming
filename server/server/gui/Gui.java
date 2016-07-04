@@ -1,6 +1,15 @@
 package server.gui;
 
+import server.connect.Server;
+import server.connect.ServerInterface;
+import server.connect.VideoServer;
 import server.gui.Gui;
+import server.main.Main;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import client.connect.TcpHandlerClient;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -22,11 +31,16 @@ public class Gui extends Application{
 	
 	private static Button[] buttons;
 	private static String[] buttonNames;
+	
+	static Server vs;
+	boolean isRunning;
+
 
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
+		vs = new VideoServer(8001);
+
 		this.stage = primaryStage;
 		
 		stage.setTitle("Video Server by Carlos & Thilo");
@@ -53,28 +67,10 @@ public class Gui extends Application{
 			GridPane.setConstraints(buttons[i], i, 0);
 	        toolbar.getChildren().add(buttons[i]);		
 	        
-	        switch(buttons[i].getText()) {
-	        case "Start server":
-	        	
-		        buttons[i].setOnAction(new EventHandler<ActionEvent>() {
-	    			public void handle(ActionEvent event) {
-	    				// TODO: start process message
-	    				System.out.println("Hello");
-	    			}
-		    	});
-		        break;
-	        case "Shut down server":
-	            buttons[i].setOnAction(new EventHandler<ActionEvent>() {
-	    			public void handle(ActionEvent event) {
-	    				// TODO: shut down server
-	    				System.out.println("World");
-	    			}
-		    	});
-		        break;
-		    default:
-				System.out.println("Hoopla!");
-				break;
-	        }  
+	        setButtonActions(buttons[i]);
+	        if (buttons[i].getText().equals("Shut down server")) {
+	        	buttons[i].setDisable(true);
+	        }
 		}
 		
 		/**
@@ -97,6 +93,26 @@ public class Gui extends Application{
 		
 		stage.setScene(scene);
 		stage.show();
+	}
+	
+	public void setButtonActions(Button btn) {
+		 btn.setOnAction(new EventHandler<ActionEvent>() {
+ 			public void handle(ActionEvent event) {
+ 				if (btn.getText().equals("Start server") && isRunning == false) {
+ 	 				System.out.println("--> Starting server");
+ 	 				isRunning = true;
+	 				(new Thread(vs)).start();
+	 				buttons[0].setDisable(true);
+	 				buttons[1].setDisable(false);
+ 				}
+ 				if (btn.getText().equals("Shut down server") && isRunning == true) {
+ 	 				System.out.println("--> Shutting down server");
+ 	 				isRunning = false;
+ 	 				vs.shutdown();
+	 				buttons[0].setDisable(false);
+	 				buttons[1].setDisable(true); 				}
+ 			}
+	    });
 	}
 	
 	/*
