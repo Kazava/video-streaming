@@ -1,7 +1,11 @@
 package client.gui;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.EventListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 import client.connect.CMD;
 import client.main.Main;
@@ -13,6 +17,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -26,6 +33,10 @@ public class Gui extends Application{
 	
 	private static Button[] buttons;
 	private static String[] buttonNames;
+	
+	private Label videoContainer;
+	private ImageView imageView;
+	private Image image;
 
 
 	@Override
@@ -63,6 +74,15 @@ public class Gui extends Application{
 		StackPane videoStack = new StackPane();
 		videoStack.setMinSize(400, 400);
 		
+		// The Video player:
+	    image = new Image();
+	    videoContainer = new Label(image);
+		videoContainer.setBounds(0, 0, 400, 400);
+		
+		videoStack.getChildren().add(new BufferedImage);
+
+
+
 		
 		/**
 		 * The <code>BorderPane</code> is responsible for the main
@@ -72,7 +92,7 @@ public class Gui extends Application{
 		BorderPane layout = new BorderPane();
 		layout.getStyleClass().add("layout");
 		layout.setTop(toolbar);
-		layout.setCenter(videoStack);
+		layout.setCenter(videoContainer);
 		
 		this.scene = new Scene(layout);
         scene.getStylesheets().clear();

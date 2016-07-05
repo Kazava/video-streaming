@@ -1,12 +1,18 @@
 package server.connect;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.concurrent.Callable;
+
+import org.opencv.core.Mat;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.videoio.VideoCapture;
 
 import client.connect.CMD;
 
@@ -22,6 +28,10 @@ public class TcpHandler implements Runnable {
 	String messageString;
 	ByteBuffer messageBytes;
 	SocketChannel client;
+	private boolean stop;
+	private String videoName;
+	private VideoCapture cap;
+	private Mat frame;
 	
 
 	TcpHandler(ServerSocketChannel tcpserver) throws IOException {
@@ -52,6 +62,10 @@ public class TcpHandler implements Runnable {
 		System.out.println("Client wrote: " + this.messageString);
 	}
 	
+	public CMD getCommand() {
+		return this.cmd;
+	}
+	
 	public void writeUdpMessage() throws IOException, InterruptedException {
 		if (messageString != "") { 
 			DatagramChannel channel = DatagramChannel.open();
@@ -67,10 +81,47 @@ public class TcpHandler implements Runnable {
 		}
 	}
 	
-	public String writeMessage() {
+	public void handleTcpMessage() throws IOException {
+		DatagramChannel channel = DatagramChannel.open();
+		this.videoName = "./res/do_it.mp4"; 				// TODO: Make server choose with GUI
+
+		if (this.cmd.name() == "PLAY") {
+			prepareVideo(channel, this.videoName);
+		}
 		
-		return "lol";
+		ByteBuffer buf = ByteBuffer.allocate(48);
+
+		
 	}
+	
+	public void prepareVideo(DatagramChannel channel, String videoName) throws UnknownHostException, IOException {
+		cap = new VideoCapture(videoName); 		//"./res/do_it.mp4"
+		if(cap.isOpened()){
+	        System.out.println("Opened Media File.");
+	    }
+	    else{
+	        System.out.println("Media File is not opened.");
+	    }
+		frame = new Mat();
+		cap.read(frame);
+		
+		Size sz = new Size(60,40);
+	    
+	    Imgproc.resize( frame, frame, sz );
+	    Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2GRAY);
+	    
+	    int bufferSize = frame.channels()*frame.cols()*frame.rows();
+	    byte [] b = new byte[bufferSize];
+	    frame.get(0,0,b); // get all the pixels	
+	    	    
+		ByteBuffer buf = ByteBuffer.allocate(b.length);
+		//System.out.println(b.length);
+		buf.put(b);
+		buf.flip();
+		int bytesSent = channel.send(buf, new InetSocketAddress(InetAddress.getLocalHost(), 10000));
+	}
+	
+
 
 	public void run() {
 		try {

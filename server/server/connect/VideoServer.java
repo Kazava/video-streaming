@@ -7,14 +7,17 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class VideoServer extends Server {
+	String mode;
+	UdpHandler udp;
 	
-	public VideoServer(int tcpPort) {
+	public VideoServer(int tcpPort, String mode) {
 		super(tcpPort);
+		this.mode = mode;
 	}
 	
 	public void processMessage() throws IOException {
 		//debug("Entered Loop...");
-        selector.selectNow();  // non-blocking
+        selector.select();  // non-blocking
         Set<SelectionKey> keys = selector.selectedKeys();
 
         for (Iterator<SelectionKey> i = keys.iterator(); i.hasNext();) {
@@ -24,7 +27,20 @@ public class VideoServer extends Server {
 		
 		    if (key.isAcceptable() && c == tcpserver) {
 		        debug("Connecting as TCP");
-		        (new Thread(new TcpHandler(tcpserver))).start(); // TCP-Read enum, UDP-Write String
+		        // TODO: Read TCP
+		        TcpHandler tcp = new TcpHandler(tcpserver);
+		        String cmd = tcp.getCommand().name();
+		        if (cmd == "PLAY") {
+		        	udp = new UdpHandler("./res/do_it.mp4", cmd, this.mode);
+		        	new Thread(udp).start();
+		        }
+		        if (cmd == "PAUSE") {
+		        	udp.pause();	// Todo: if suspended then resume on play button
+		        }
+		        if (cmd == "STOP") {
+		        	udp.stop();
+		        }
+		        
 		    } else {
 		    	debug("Not a TCP-connection!!!");
         	}
@@ -33,9 +49,9 @@ public class VideoServer extends Server {
 	
 	public void shutdown() {
 		this.isAlive = false;
-		TcpHandler tcp = new TcpHandler("--> Server has disconnected.");
+		UdpHandler udp = new UdpHandler("--> Server has disconnected.");
 		try {
-			tcp.writeUdpMessage();
+			udp.writeUdpMessage();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {

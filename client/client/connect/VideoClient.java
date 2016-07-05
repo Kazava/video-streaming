@@ -9,12 +9,12 @@ public class VideoClient extends Client {
 
 	public VideoClient(int tcpPort, int udpPort) {
 		super(tcpPort, udpPort);
-		udpHandler =  new UdpHandlerClient(udpChannel);
+		udpHandler =  new UdpHandlerClient(udpChannel, "Debug");
 	}
 
 	public void processMessage() throws IOException {
 		
-        (new UdpHandlerClient(udpChannel)).run();
+        (new UdpHandlerClient(udpChannel, "Debug")).run();
 	}
 	
 	public void sendTcpCommand(CMD cmd) {
@@ -24,6 +24,9 @@ public class VideoClient extends Client {
 		// Write TCP enum:
 		(new Thread(new TcpHandlerClient(cmd, tcpChannel))).start();
 	}
+	
+	//TODO: Make server not listen to udp constantly, make method for opening and disallowing udp receive
+	// so that GUI can call udpHandlerClient functions.
 
 	
 }
