@@ -17,7 +17,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		
 		// start Gui
-		Application.launch(Gui.class, args);
+		//Application.launch(Gui.class, args);
 		
 		client = new VideoClient(8001, 8002);
 		try {

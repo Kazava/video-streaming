@@ -23,8 +23,7 @@ import java.util.logging.Logger;
  * A Server that handles TCP and UDP connections and
  * provides exception handling and error logging.
  * 
- * TODO: Convert byte arrays to String (String s = new String (String str = new String(bytes, "UTF-8"))
- * 		 and handle Client requests (switch cases?)
+ * 
  */
 public class Server_v2 {
   public static void main(String args[]) {
@@ -77,7 +76,7 @@ public class Server_v2 {
           debug("Entered Loop...");
           // Handle per-connection problems below
           // Wait for a client to connect
-          selector.select();  										//TODO: .selectNow() --> use Non-blocking?
+          selector.select();  		
           //debug("Seletor selected");
 
           // If we get here, a client has probably connected, so
@@ -102,7 +101,7 @@ public class Server_v2 {
 
             // Now test the key and the channel to find out
             // whether something happend on the TCP or UDP channel
-            if (key.isAcceptable() && c == tcpserver) {				// TODO: Thread here??
+            if (key.isAcceptable() && c == tcpserver) {			
               debug("Connecting as TCP");
               // A client has attempted to connect via TCP.
               // Accept the connection now.
@@ -125,7 +124,7 @@ public class Server_v2 {
                 client.close(); // close connection
                 //debug("Sent TCP");
               }
-            } else if (key.isReadable() && c == udpserver) {		// TODO: 2nd Thread here?
+            } else if (key.isReadable() && c == udpserver) {
             	
             	
             	
