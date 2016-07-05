@@ -15,7 +15,8 @@ public class VideoClient extends Client {
 //        sendTcpCommand(CMD.PLAY);
         
         // Read UDP Messages as String:
-//        (new Thread(new UdpHandlerClient(udpChannel))).start();
+		
+        (new UdpHandlerClient(udpChannel)).run();
 	}
 	
 	public void sendTcpCommand(CMD cmd) {
