@@ -4,17 +4,15 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class VideoClient extends Client {
+	
+	private UdpHandlerClient udpHandler;
 
 	public VideoClient(int tcpPort, int udpPort) {
 		super(tcpPort, udpPort);
+		udpHandler =  new UdpHandlerClient(udpChannel);
 	}
 
 	public void processMessage() throws IOException {
- 
-        // Send TCP Commands as enums:
-//        sendTcpCommand(CMD.PLAY);
-        
-        // Read UDP Messages as String:
 		
         (new UdpHandlerClient(udpChannel)).run();
 	}

@@ -21,7 +21,7 @@ public class UdpHandlerClient implements Runnable {
 		this.byteBuffer = ByteBuffer.allocate(48); // probably needs more space
 		
 		this.byteBuffer.clear();
-		int isReceived = this.udpChannel.read(byteBuffer);
+		this.udpChannel.receive(byteBuffer);
 		
 		
 //		byteArray = new byte[byteBuffer.remaining()];
@@ -32,7 +32,7 @@ public class UdpHandlerClient implements Runnable {
 		
 		byteArray = byteBuffer.array();
 		
-		if(isReceived > 0)
+		if(byteArray[0] != 0x00)
 			printBytes(byteArray);
 		
 	}
