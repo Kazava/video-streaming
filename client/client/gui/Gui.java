@@ -1,7 +1,14 @@
 package client.gui;
 
+import java.io.IOException;
+import java.util.EventListener;
+
+import client.connect.CMD;
+import client.main.Main;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -41,7 +48,7 @@ public class Gui extends Application{
 		toolbar.setMinHeight(50);
 		toolbar.getStyleClass().add("toolbar");
 		
-		buttonNames = new String[]{"Play/Pause", "Stop", "Next"};
+		buttonNames = new String[]{"Play", "Pause", "Stop", "Next"};
 		buttons = new Button[buttonNames.length];
 		
 		for(int i = 0; i < buttonNames.length; i++){
@@ -49,10 +56,13 @@ public class Gui extends Application{
 			
 			GridPane.setConstraints(buttons[i], i, 0);
 	        toolbar.getChildren().add(buttons[i]);
+	        
+	        setButtonActions(buttons[i]);
 		}
 		
 		StackPane videoStack = new StackPane();
 		videoStack.setMinSize(400, 400);
+		
 		
 		/**
 		 * The <code>BorderPane</code> is responsible for the main
@@ -85,6 +95,35 @@ public class Gui extends Application{
 	 */
 	public void setMessage(String text){
 		
+	}
+	
+	/**
+	 * set actions to buttons
+	 * @param btn
+	 */
+	private void setButtonActions(Button btn) {
+		 btn.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				if(btn.getText() == "Play"){
+					sendTcpCommand(CMD.PLAY);
+				}else if(btn.getText() == "Pause"){
+					sendTcpCommand(CMD.PAUSE);
+				}else if(btn.getText() == "Stop"){
+					sendTcpCommand(CMD.STOP);
+				}else if(btn.getText() == "Next"){
+					sendTcpCommand(CMD.NEXT);
+				}
+			}
+	    });
+	}
+	
+	private void sendTcpCommand(CMD cmd){
+		Thread sent = new Thread(new Runnable() {
+		     public void run() {
+		    	 Main.getClient().sendTcpCommand(cmd);
+		     }
+		});  
+		sent.start();
 	}
 
 }

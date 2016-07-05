@@ -16,14 +16,25 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		
-		// start Gui
-		//Application.launch(Gui.class, args);
-		
 		client = new VideoClient(8001, 8002);
-		try {
-			client.run();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+		Thread backend = new Thread(new Runnable() {
+		     public void run() {
+		    	 try {
+					client.run();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		     }
+		});  
+		backend.start();
+
+		// start Gui
+		Application.launch(Gui.class, args);
+	}
+	
+	public static VideoClient getClient(){
+		return (VideoClient) client;
 	}
 }

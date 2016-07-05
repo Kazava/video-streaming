@@ -8,6 +8,8 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.concurrent.Callable;
 
+import client.connect.CMD;
+
 /*
  * TCP connection with client. Reads Clients commands and instantiates UdpHandler when
  * the right command was given. 

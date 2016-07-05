@@ -110,7 +110,8 @@ public class Gui extends Application{
  	 				isRunning = false;
  	 				vs.shutdown();
 	 				buttons[0].setDisable(false);
-	 				buttons[1].setDisable(true); 				}
+	 				buttons[1].setDisable(true); 			
+	 			}
  			}
 	    });
 	}
