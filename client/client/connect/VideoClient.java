@@ -12,20 +12,15 @@ public class VideoClient extends Client {
 	public void processMessage() throws IOException {
  
         // Send TCP Commands as enums:
-        sendTcpCommand(CMD.PLAY);
+//        sendTcpCommand(CMD.PLAY);
         
         // Read UDP Messages as String:
-        (new Thread(new UdpHandlerClient(udpChannel))).start();
+//        (new Thread(new UdpHandlerClient(udpChannel))).start();
 	}
 	
 	public void sendTcpCommand(CMD cmd) {
 		// Simulates Button-press:
-		System.out.println("(New Thread) Write anything to proceed: ");
-		@SuppressWarnings("unused")
-		String tmp = "";
-		@SuppressWarnings("resource")
-		Scanner scan = new Scanner(System.in);
-		tmp = scan.next();
+		System.out.println("Client sends new TCP command: " + cmd.toString());
 		
 		// Write TCP enum:
 		(new Thread(new TcpHandlerClient(cmd, tcpChannel))).start();

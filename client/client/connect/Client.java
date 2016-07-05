@@ -67,7 +67,7 @@ abstract class Client implements ClientInterface {
 	}
 	
 	abstract public void processMessage() throws IOException;
-
+	abstract public void sendTcpCommand(CMD cmd);
 
 	
 }
