@@ -46,10 +46,11 @@ public class UdpHandlerClient implements Runnable {
 	}
 
 	private void printBytes(byte[] in){
-		System.out.println(" *** Bytes ***");
+		System.out.println(" *** Bytes from Server ***");
 		for(int i = 0; i < in.length; i++){
 			System.out.print(String.format("%02X ",  in[i]));
 		}
+		System.out.print("\n");
 	}
 	
 }
