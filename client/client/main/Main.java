@@ -18,6 +18,7 @@ public class Main {
 		
 		client = new VideoClient(8001, 8002);
 
+		/*
 		Thread backend = new Thread(new Runnable() {
 		     public void run() {
 		    	 try {
@@ -29,6 +30,7 @@ public class Main {
 		     }
 		});  
 		backend.start();
+		*/
 
 		// start Gui
 		Application.launch(Gui.class, args);

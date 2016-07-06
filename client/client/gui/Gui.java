@@ -75,11 +75,13 @@ public class Gui extends Application{
 		videoStack.setMinSize(400, 400);
 		
 		// The Video player:
+		/*
 	    image = new Image();
 	    videoContainer = new Label(image);
 		videoContainer.setBounds(0, 0, 400, 400);
 		
 		videoStack.getChildren().add(new BufferedImage);
+		*/
 
 
 
@@ -126,6 +128,7 @@ public class Gui extends Application{
 			public void handle(ActionEvent event) {
 				if(btn.getText() == "Play"){
 					sendTcpCommand(CMD.PLAY);
+					receiveUdp();
 				}else if(btn.getText() == "Pause"){
 					sendTcpCommand(CMD.PAUSE);
 				}else if(btn.getText() == "Stop"){
@@ -141,6 +144,15 @@ public class Gui extends Application{
 		Thread sent = new Thread(new Runnable() {
 		     public void run() {
 		    	 Main.getClient().sendTcpCommand(cmd);
+		     }
+		});  
+		sent.start();
+	}
+	
+	private void receiveUdp() {
+		Thread sent = new Thread(new Runnable() {
+		     public void run() {
+		    	 Main.getClient().receiveAsUdp();
 		     }
 		});  
 		sent.start();

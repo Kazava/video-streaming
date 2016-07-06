@@ -3,6 +3,8 @@ package client.connect;
 import java.io.IOException;
 import java.util.Scanner;
 
+import javafx.scene.image.Image;
+
 public class VideoClient extends Client {
 	
 	private UdpHandlerClient udpHandler;
@@ -23,6 +25,11 @@ public class VideoClient extends Client {
 		
 		// Write TCP enum:
 		(new Thread(new TcpHandlerClient(cmd, tcpChannel))).start();
+	}
+	
+	public void receiveAsUdp() {
+		UdpHandlerClient udp = new UdpHandlerClient(udpChannel, "Normal");
+		udp.renderVideo();
 	}
 	
 	//TODO: Make server not listen to udp constantly, make method for opening and disallowing udp receive
