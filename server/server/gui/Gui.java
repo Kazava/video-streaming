@@ -39,7 +39,7 @@ public class Gui extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		vs = new VideoServer(8001, "Debug");
+		vs = new VideoServer(8001, "Normal");
 
 		this.stage = primaryStage;
 		
