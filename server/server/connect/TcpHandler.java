@@ -66,6 +66,13 @@ public class TcpHandler implements Runnable {
 		return this.cmd;
 	}
 	
+	
+	/*
+	 * Everything after this part is not needed anymore!!!!
+	 */
+	
+	
+	
 	public void writeUdpMessage() throws IOException, InterruptedException {
 		if (messageString != "") { 
 			DatagramChannel channel = DatagramChannel.open();

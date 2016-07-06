@@ -25,10 +25,10 @@ public class VideoServer extends Server {
 		    i.remove();
 		    Channel c = (Channel) key.channel();        
 		
-		    if (key.isAcceptable() && c == tcpChannel) {
+			if (key.isAcceptable() && c == tcpserver) {
 		        debug("Connecting as TCP");
 		        // TODO: Read TCP
-		        TcpHandler tcp = new TcpHandler(tcpChannel);
+		        TcpHandler tcp = new TcpHandler(tcpserver);
 		        String cmd = tcp.getCommand().name();
 		        if (cmd == "PLAY") {
 		        	udp = new UdpHandler("./res/Perception.mp4", cmd, this.mode);

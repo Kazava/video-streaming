@@ -3,6 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="server"/>
 	<classpathentry kind="src" path="client"/>
+	<classpathentry kind="src" path="server_v5"/>
+	<classpathentry kind="src" path="client_v5"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/opencv"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/opencv31"/>
