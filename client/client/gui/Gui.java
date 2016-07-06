@@ -124,6 +124,12 @@ public class Gui extends Application{
 			public void handle(ActionEvent event) {
 				if(btn.getText() == "Play"){
 					sendTcpCommand(CMD.PLAY);
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					receiveUdp();
 					repaintImage();
 				}else if(btn.getText() == "Pause"){

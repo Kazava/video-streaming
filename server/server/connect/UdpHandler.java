@@ -18,9 +18,6 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 
-/*
- * NOT USED ANYMORE!!!
- */
 public class UdpHandler implements Runnable{
 	String messageString;
 	String cmd;
@@ -61,6 +58,15 @@ public class UdpHandler implements Runnable{
 	
 	// Sends video stream:
 	public void prepareVideo() throws UnknownHostException, IOException {
+		DatagramChannel channel = DatagramChannel.open();
+		cap = new VideoCapture(videoName); 		//"./res/do_it.mp4"
+		if(cap.isOpened()){
+	        System.out.println("Opened Media File.");
+	    }
+	    else{
+	        System.out.println("Media File is not opened.");
+	    }
+		
 		while (!this.stop) {
 			try {
 				Thread.sleep(8);
@@ -69,14 +75,6 @@ public class UdpHandler implements Runnable{
 				e.printStackTrace();
 			}
 
-			DatagramChannel channel = DatagramChannel.open();
-			cap = new VideoCapture(videoName); 		//"./res/do_it.mp4"
-			if(cap.isOpened()){
-		        System.out.println("Opened Media File.");
-		    }
-		    else{
-		        System.out.println("Media File is not opened.");
-		    }
 			frame = new Mat();
 			cap.read(frame);
 			

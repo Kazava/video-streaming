@@ -48,7 +48,6 @@ public class UdpHandlerClient implements Runnable {
 		if(byteArray[0] != 0x00)
 			printBytes(byteArray);
 		return (convertToJavaFXImage(byteArray, 60, 40));
-		
 	}
 	
 	// http://blog.professional-webworkx.de/javafx-convert-a-bytes-array-to-a-javafx-image/
