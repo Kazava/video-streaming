@@ -40,13 +40,14 @@ public class UdpHandlerClient implements Runnable {
 	}
 	
 	public Image renderVideo() throws InterruptedException, IOException {
-		
-		Thread.sleep(16); // 60fps      
-		this.byteBuffer = ByteBuffer.allocate(48); // probably needs more space		
+		    
+		this.byteBuffer = ByteBuffer.allocate(3*60*40); // probably needs more space		
 		this.byteBuffer.clear();
 		this.udpChannel.receive(byteBuffer);	
 		byteArray = byteBuffer.array();
-		return (convertToJavaFXImage(byteArray, 400, 400));
+		if(byteArray[0] != 0x00)
+			printBytes(byteArray);
+		return (convertToJavaFXImage(byteArray, 60, 40));
 		
 	}
 	

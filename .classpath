@@ -6,5 +6,6 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/opencv"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/opencv31"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/opencv3"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

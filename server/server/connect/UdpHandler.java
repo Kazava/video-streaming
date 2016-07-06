@@ -62,6 +62,12 @@ public class UdpHandler implements Runnable{
 	// Sends video stream:
 	public void prepareVideo() throws UnknownHostException, IOException {
 		while (!this.stop) {
+			try {
+				Thread.sleep(8);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			DatagramChannel channel = DatagramChannel.open();
 			cap = new VideoCapture(videoName); 		//"./res/do_it.mp4"
@@ -76,7 +82,7 @@ public class UdpHandler implements Runnable{
 			
 			Size sz = new Size(60,40);
 		    
-		    Imgproc.resize( frame, frame, sz );
+		    Imgproc.resize( frame, frame, sz);
 		    Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2GRAY);
 		    
 		    int bufferSize = frame.channels()*frame.cols()*frame.rows();

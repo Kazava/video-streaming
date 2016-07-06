@@ -34,9 +34,10 @@ public class Gui extends Application{
 	private static Button[] buttons;
 	private static String[] buttonNames;
 	
-	private Label videoContainer;
 	private ImageView imageView;
 	private Image image;
+	
+	private boolean isAlive = true;
 
 
 	@Override
@@ -48,7 +49,7 @@ public class Gui extends Application{
 		stage.centerOnScreen();
 		
 		/**
-		 * A <code> GridPane</code> represents the toolbar
+		 * A <code>GridPane</code> represents the toolbar
 		 * which will be at the top of the gui window
 		 */
 		GridPane toolbar = new GridPane();
@@ -74,17 +75,12 @@ public class Gui extends Application{
 		StackPane videoStack = new StackPane();
 		videoStack.setMinSize(400, 400);
 		
-		// The Video player:
-		/*
-	    image = new Image();
-	    videoContainer = new Label(image);
-		videoContainer.setBounds(0, 0, 400, 400);
+		// The Video player
+	    image = new Image("client/gui/image.png");
+	    
+	    imageView = new ImageView(image);
 		
-		videoStack.getChildren().add(new BufferedImage);
-		*/
-
-
-
+		videoStack.getChildren().add(imageView);
 		
 		/**
 		 * The <code>BorderPane</code> is responsible for the main
@@ -94,7 +90,7 @@ public class Gui extends Application{
 		BorderPane layout = new BorderPane();
 		layout.getStyleClass().add("layout");
 		layout.setTop(toolbar);
-		layout.setCenter(videoContainer);
+		layout.setCenter(videoStack);
 		
 		this.scene = new Scene(layout);
         scene.getStylesheets().clear();
@@ -129,6 +125,7 @@ public class Gui extends Application{
 				if(btn.getText() == "Play"){
 					sendTcpCommand(CMD.PLAY);
 					receiveUdp();
+					repaintImage();
 				}else if(btn.getText() == "Pause"){
 					sendTcpCommand(CMD.PAUSE);
 				}else if(btn.getText() == "Stop"){
@@ -156,6 +153,19 @@ public class Gui extends Application{
 		     }
 		});  
 		sent.start();
+	}
+	
+	public void repaintImage(){
+		while(isAlive){
+			try {
+				Thread.sleep(16);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			image = Main.getClient().getImage();
+			imageView = new ImageView(image);
+		}
 	}
 
 }
