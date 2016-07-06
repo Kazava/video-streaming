@@ -55,8 +55,7 @@ public class VideoClient extends Client {
 		return imageBuffer.poll();
 	}
 	
-	//TODO: Make server not listen to udp constantly, make method for opening and disallowing udp receive
-	// so that GUI can call udpHandlerClient functions.
+	// Hallo Carlos my bro whats up???? xD
 
 	
 }
