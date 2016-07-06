@@ -31,7 +31,7 @@ public class VideoServer extends Server {
 		        TcpHandler tcp = new TcpHandler(tcpserver);
 		        String cmd = tcp.getCommand().name();
 		        if (cmd == "PLAY") {
-		        	udp = new UdpHandler("./res/do_it.mp4", cmd, this.mode);
+		        	udp = new UdpHandler("./res/Perception.mp4", cmd, this.mode);
 		        	new Thread(udp).start();
 		        }
 		        if (cmd == "PAUSE") {
