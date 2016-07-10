@@ -44,6 +44,7 @@ public class UdpSender implements Runnable {
 					buffer.putInt(pixels[i]);
 				}
 				
+				//TODO: ALLES DOOF :D 
 				udpChannel.send(buffer, new InetSocketAddress("localhost", 9002));
 				
 				try {

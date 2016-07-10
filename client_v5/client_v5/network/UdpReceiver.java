@@ -21,8 +21,8 @@ public class UdpReceiver implements Runnable {
 	/*
 	 * Just reads udp messages
 	 */
-	UdpReceiver(Channel channel) {
-		this.udpChannel = (DatagramChannel) channel;
+	UdpReceiver(DatagramChannel channel) {
+		this.udpChannel = channel;
 		isAlive = true;
 	}
 	
@@ -45,9 +45,6 @@ public class UdpReceiver implements Runnable {
 		
 		int[] pixels = new int[size];
 		
-		Video video = new Video(new File("."), width, height);
-		System.out.println("-> POSER");
-		
 		while(isAlive){
 			
 	        try {
@@ -68,7 +65,10 @@ public class UdpReceiver implements Runnable {
 			}
 			
 			Frame frame = new Frame(pixels);
-//			video.addFrame(frame);
+			
+			if(pixels[0] != 0x00){
+				System.out.println("pixels " + pixels[0]);
+			}
 			
 			Gui.writeImg(frame, width, height);
 			
@@ -77,6 +77,14 @@ public class UdpReceiver implements Runnable {
 		
 		
 		
+	}
+	
+	private void printBytes(byte[] in){
+		System.out.println(" *** Bytes from Server ***");
+		for(int i = 0; i < in.length; i++){
+			System.out.print(String.format("%02X ",  in[i]));
+		}
+		System.out.print("\n");
 	}
 	
 }

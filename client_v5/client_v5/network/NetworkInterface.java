@@ -5,5 +5,5 @@ import java.nio.channels.Channel;
 
 public interface NetworkInterface {
 	public void setupNetwork() throws IOException;
-	public Channel choosingConnection();
+	public int choosingConnection(Channel c);
 }

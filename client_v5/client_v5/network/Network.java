@@ -57,7 +57,7 @@ public class Network implements NetworkInterface {
 	 * connection type.
 	 */
 	@Override
-	public Channel choosingConnection() {
+	public int choosingConnection(Channel c) {
 		try {
 			selector.select(); // stop here!
 			System.out.println("Selector chose something!");
@@ -65,16 +65,16 @@ public class Network implements NetworkInterface {
 			for (Iterator<SelectionKey> i = keys.iterator(); i.hasNext();) {
 	            SelectionKey key = (SelectionKey) i.next();
 	            i.remove();
-	            Channel c = (Channel) key.channel();
+	            c = (Channel) key.channel();
 	            if (key.isAcceptable() && c == tcpChannel)
-	            	return tcpChannel;
+	            	c = tcpChannel;
 	            else if (key.isReadable() && c == udpChannel) 
-	            	return udpChannel;
+	            	c = udpChannel;
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return -1;
 	}
 }

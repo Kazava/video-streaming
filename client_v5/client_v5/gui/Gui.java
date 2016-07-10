@@ -54,30 +54,9 @@ public class Gui extends Application{
 				
 				System.out.println("Yayyy");
 				
-				new Thread(new Runnable(){
-					@Override
-					public void run() {
-						
-						Client client = new VideoStreamClient();
-						client.sendMessage(CMD.PLAY);
-						
-//						Video video = new Video(new File("res/Perception.mp4"), 600, 400);
-//						
-//						System.out.println("Yayyy");
-//						
-//						while(0 < video.getFrames(1)){
-//							writeImg(video.getFrames().poll(), video.getWidth(), video.getHeight());
-//							try {
-//								Thread.sleep(32);
-//							} catch (InterruptedException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
-//					
-//						}
-					}
-					
-				}).start();
+				Client client = new VideoStreamClient();
+				client.sendMessage(CMD.PLAY);
+				new Thread((Runnable) client).start();
 			}
 			
 		});
