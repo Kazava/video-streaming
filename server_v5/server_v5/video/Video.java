@@ -1,4 +1,4 @@
-package client_v5.video;
+package server_v5.video;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -114,13 +114,12 @@ public class Video {
 	public void setFrames(Queue<Frame> frames){
 		this.frames = frames;
 	}
+	
+	public int getFramesSize(){
+		return width * height;
+	}
 
 	public int getByteSizeOfFrame() {
 		return width * height * 8;
-	}
-
-	public int getFramesSize() {
-		// TODO Auto-generated method stub
-		return width * height;
 	}
 }

@@ -17,17 +17,6 @@ public class Main {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		
 		Application.launch(Gui.class, args);
-
-		
-//		while(0 < video.getFrames(1)){
-//			Gui.writeImg(video.getFrames().poll(), video.getWidth(), video.getHeight());
-//			try {
-//				Thread.sleep(32);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
 		
 	}
 }

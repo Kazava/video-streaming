@@ -1,10 +1,13 @@
 package server_v5.network;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channel;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+
+import server_v5.video.Video;
 
 public class TcpReceiver implements Runnable {
 	ServerSocketChannel tcpChannel;
@@ -30,6 +33,7 @@ public class TcpReceiver implements Runnable {
 				cmd = CMD.values()[ordinal];
 				messageString = cmd.name();
 				System.out.println("Client wrote: " + messageString);
+				sendUdpVideo();
 	        }
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -39,6 +43,15 @@ public class TcpReceiver implements Runnable {
 	@Override
 	public void run() {
 		readTcp();
+	}
+	
+	public void sendUdpVideo(){
+		switch(cmd){
+		case PLAY:
+			UdpSender sender = new UdpSender(new Video(new File("res/Perception.mp4"), 42, 32));
+			new Thread(sender).start();
+			break;
+		}
 	}
 	
 }

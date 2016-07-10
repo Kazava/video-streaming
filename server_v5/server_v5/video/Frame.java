@@ -1,4 +1,4 @@
-package client_v5.video;
+package server_v5.video;
 
 /**
  * <code>Frame</code> represents single pictures of a video
@@ -46,11 +46,6 @@ public class Frame {
 		}
 		str += "\n length: " + pixels.length;
 		return str;
-	}
-
-	public int size() {
-		// TODO Auto-generated method stub
-		return pixels.length;
 	}
 	
 	

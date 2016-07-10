@@ -19,6 +19,9 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+import client_v5.network.CMD;
+import client_v5.network.Client;
+import client_v5.network.VideoStreamClient;
 import client_v5.video.*;
 
 public class Gui extends Application{
@@ -42,7 +45,7 @@ public class Gui extends Application{
 		layout = new BorderPane();
 		
 		play = new Button("Play");
-		
+
 		
 		 play.setOnAction(new EventHandler<ActionEvent>() {
 			 
@@ -54,20 +57,24 @@ public class Gui extends Application{
 				new Thread(new Runnable(){
 					@Override
 					public void run() {
-						Video video = new Video(new File("client_v5/res/Perception.mp4"), 600, 400);
 						
-						System.out.println("Yayyy");
+						Client client = new VideoStreamClient();
+						client.sendMessage(CMD.PLAY);
 						
-						while(0 < video.getFrames(1)){
-							writeImg(video.getFrames().poll(), video.getWidth(), video.getHeight());
-							try {
-								Thread.sleep(32);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-					
-						}
+//						Video video = new Video(new File("res/Perception.mp4"), 600, 400);
+//						
+//						System.out.println("Yayyy");
+//						
+//						while(0 < video.getFrames(1)){
+//							writeImg(video.getFrames().poll(), video.getWidth(), video.getHeight());
+//							try {
+//								Thread.sleep(32);
+//							} catch (InterruptedException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
+//					
+//						}
 					}
 					
 				}).start();
