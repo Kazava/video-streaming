@@ -8,7 +8,7 @@ import java.nio.channels.SocketChannel;
 
 public class TcpReceiver implements Runnable {
 	ServerSocketChannel tcpChannel;
-	SocketChannel tcpClient;
+	SocketChannel tcpServer;
 	String messageString;
 	int ordinal;
 	CMD cmd;
@@ -20,11 +20,11 @@ public class TcpReceiver implements Runnable {
 	// Only reads TCP message and converts it to an enum:
 	public void readTcp() {
 		try {
-			tcpClient = tcpChannel.accept();
-	        if (tcpClient != null) {
+			tcpServer = tcpChannel.accept();
+	        if (tcpServer != null) {
 				ByteBuffer messageBuffer = ByteBuffer.allocate(1);
-				tcpClient.read(messageBuffer);
-				tcpClient.close();
+				tcpServer.read(messageBuffer);
+				tcpServer.close();
 				messageBuffer.flip();
 				ordinal = messageBuffer.get(0);
 				cmd = CMD.values()[ordinal];
