@@ -1,4 +1,4 @@
-package server_v5.network;
+package client_v5.network;
 
 import java.nio.channels.Channel;
 import java.nio.channels.DatagramChannel;
@@ -7,11 +7,12 @@ import java.nio.channels.ServerSocketChannel;
 /*
  * The GUI should be able to call each function
  */
-public class VideoStreamServer implements Runnable, Server {
+public class VideoStreamClient implements Runnable, Client {
+
 	private boolean isAlive;
 	private Network network;
 
-	public VideoStreamServer() {}
+	public VideoStreamClient() {}
 	
 	public void startListening() {
 		this.isAlive = true;
@@ -19,15 +20,13 @@ public class VideoStreamServer implements Runnable, Server {
 			Channel channel;
 			channel = network.choosingConnection(); // first stop here!
 			if (channel instanceof ServerSocketChannel) {
-				//System.out.println("TCP received!");
 				// TODO: Read TCP received message, convert to enum and reply in another class.
-				
-				TcpReceiver tcpReceiver = new TcpReceiver(channel);
-				new Thread(tcpReceiver).start();
 			}
 			else if (channel instanceof DatagramChannel) {
 				System.out.println("UDP received!");
-				// TODO: Read UDP received message, convert to enum and reply in another class.
+				// TODO: Read UDP received message
+				UdpReceiver udpReceiver = new UdpReceiver(channel);
+				new Thread(udpReceiver).start();
 			} else {
 				System.out.println("meh");
 			}
@@ -39,10 +38,15 @@ public class VideoStreamServer implements Runnable, Server {
 		System.out.println("...Server stopped.");
 	}
 
-	@Override
-	public void run() {
-		network = new Network(8001, 8002);
-		System.out.println("Server running...");
-		startListening();
+	public void sendMessage(CMD cmd) {
+		TcpSender tcpSender = new TcpSender(cmd);
+		new Thread(tcpSender).start();
 	}
+
+	public void run() {
+		network = new Network(9001, 9002);
+		System.out.println("Client running...");
+		startListening();		
+	}
+
 }

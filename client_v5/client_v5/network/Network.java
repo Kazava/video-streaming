@@ -1,4 +1,4 @@
-package server_v5.network;
+package client_v5.network;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -10,7 +10,6 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.util.Iterator;
 import java.util.Set;
-
 
 /*
  * Just listens to both TCP and UDP connections.
@@ -24,6 +23,7 @@ public class Network implements NetworkInterface {
 	private DatagramChannel udpChannel;
 	private Selector selector;
 	
+
 	public Network(int tcpPort, int udpPort) {
 		this.tcpPort = tcpPort;
 		this.udpPort = udpPort;
@@ -60,7 +60,7 @@ public class Network implements NetworkInterface {
 	public Channel choosingConnection() {
 		try {
 			selector.select(); // stop here!
-			//System.out.println("Selector chose something!");
+			System.out.println("Selector chose something!");
 			Set<SelectionKey> keys = selector.selectedKeys();
 			for (Iterator<SelectionKey> i = keys.iterator(); i.hasNext();) {
 	            SelectionKey key = (SelectionKey) i.next();
