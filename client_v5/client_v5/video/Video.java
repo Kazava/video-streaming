@@ -123,4 +123,12 @@ public class Video {
 		// TODO Auto-generated method stub
 		return width * height;
 	}
+	
+	public void addFrame(Frame frame){
+		frames.add(frame);
+	}
+	
+	public int getBufferState(){
+		return frames.size();
+	}
 }
