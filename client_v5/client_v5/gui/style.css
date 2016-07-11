@@ -17,3 +17,13 @@ Button:hover{
 .toolbar {
     -fx-background-color: #333333;
 }
+.stack {
+    -fx-background-image: url("background.png");
+    -fx-background-size: 400px;
+    -fx-background-repeat: no-repeat;       
+    -fx-background-position:center;   
+}
+
+.layout {
+	-fx-background-color: linear-gradient(#444444 0%, #333333 100%);
+}

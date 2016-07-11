@@ -34,7 +34,7 @@ public class Gui extends Application {
 
 		Gui.stage = primaryStage;
 		
-		stage.setTitle("Video Streaming Server by Carlos & Thilo");
+		stage.setTitle("Video Streaming Server");
 		stage.centerOnScreen();
 		
 		/**

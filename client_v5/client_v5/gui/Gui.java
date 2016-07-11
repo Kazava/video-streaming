@@ -67,16 +67,19 @@ public class Gui extends Application{
 		toolbar.getStyleClass().add("toolbar");
 		
 		StackPane stack = new StackPane();
+		stack.getStyleClass().add("stack");
 		
 		stack.getChildren().add(imgView);
 		
 		layout.setTop(toolbar);
 		layout.setCenter(stack);
 		
+		layout.getStyleClass().add("layout");
+		
 		scene = new Scene(layout);
         scene.getStylesheets().add(Gui.class.getResource("style.css").toExternalForm());
 		
-		stage.setTitle("Video Streaming - Client");
+		stage.setTitle("Video Streaming Client");
 		stage.centerOnScreen();
 		stage.setScene(scene);
 		stage.setMinWidth(700);
