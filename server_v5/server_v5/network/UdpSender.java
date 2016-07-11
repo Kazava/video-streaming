@@ -11,10 +11,12 @@ public class UdpSender implements Runnable {
 
 	private DatagramChannel udpChannel;
 	private ByteBuffer buffer;
+	private boolean isPaused;
 	Video video;
 	
 	public UdpSender(Video video){
 		this.video = video;
+		this.isPaused = false;
 	}
 
 	@Override
@@ -28,19 +30,21 @@ public class UdpSender implements Runnable {
 			int size = video.getFramesSize();
 			int[] pixels;
 			
-			while(0 < video.getFrames(1)){
-				buffer.clear();
-				pixels = video.getFrames().poll().getPixels();
-				for(int i = 0; i < size; i++){
-					buffer.putInt(pixels[i]);
-				}
-				buffer.flip();
-				udpChannel.send(buffer, new InetSocketAddress("localhost", 9999));
-//				printBytes(buffer.array()); // for debugging
-				try {
-					Thread.sleep(32);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+			while(0 < video.getFrames(1)) {
+				if (isPaused) {
+					buffer.clear();
+					pixels = video.getFrames().poll().getPixels();
+					for(int i = 0; i < size; i++){
+						buffer.putInt(pixels[i]);
+					}
+					buffer.flip();
+					udpChannel.send(buffer, new InetSocketAddress("localhost", 9999));
+	//				printBytes(buffer.array()); // for debugging
+					try {
+						Thread.sleep(32);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 			udpChannel.close();
@@ -48,6 +52,10 @@ public class UdpSender implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void pauseSender() {
+		
 	}
 	
 	// For Debugging ByteBuffer:
