@@ -23,8 +23,7 @@ import java.util.logging.Logger;
  * A Server that handles TCP and UDP connections and
  * provides exception handling and error logging.
  * 
- * TODO: Convert byte arrays to String (String s = new String (String str = new String(bytes, "UTF-8"))
- * 		 and handle Client requests (switch cases?)
+ * 
  */
 public class Server_v2 {
   public static void main(String args[]) {
@@ -74,10 +73,10 @@ public class Server_v2 {
       // Now loop forever, processing client connections
       for (;;) {
         try { 
-          //debug("Entered Loop...");
+          debug("Entered Loop...");
           // Handle per-connection problems below
           // Wait for a client to connect
-          selector.select();
+          selector.select();  		
           //debug("Seletor selected");
 
           // If we get here, a client has probably connected, so
@@ -102,11 +101,12 @@ public class Server_v2 {
 
             // Now test the key and the channel to find out
             // whether something happend on the TCP or UDP channel
-            if (key.isAcceptable() && c == tcpserver) {
-              //debug("Connecting as TCP");
+            if (key.isAcceptable() && c == tcpserver) {			
+              debug("Connecting as TCP");
               // A client has attempted to connect via TCP.
               // Accept the connection now.
               SocketChannel client = tcpserver.accept();
+              debug("TCP accepted!");
               // If we accepted the connection successfully,
               // the send our response back to the client.
               if (client != null) {
@@ -125,6 +125,14 @@ public class Server_v2 {
                 //debug("Sent TCP");
               }
             } else if (key.isReadable() && c == udpserver) {
+            	
+            	
+            	
+            	
+            	
+            	
+            	
+            	
                 debug("Connecting as UDP");
               // A UDP datagram is waiting. Receive it now,
               // noting the address it was sent from.

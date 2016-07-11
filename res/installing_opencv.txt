@@ -1,0 +1,45 @@
+Installing and building OpenCV 3.1 to Project:
+
+Part 1: Building files:
+http://docs.opencv.org/ref/master/d9/d52/tutorial_java_dev_intro.html#gsc.tab=0
+
+Summary:
+- Download the zip version 3.1 from: http://opencv.org/downloads.html 
+- unzip opencv zip.file
+- in the Terminal: go to the opened zip and do: "mkdir build" and "cd build"
+- build files with: "cmake -DBUILD_SHARED_LIBS=OFF .."
+- start the build: " make -j8"
+
+Part 2: Linking Libraries in Eclipse:
+http://docs.opencv.org/ref/master/d1/d0a/tutorial_java_eclipse.html#gsc.tab=0
+
+- in Eclipse: navigate under Preference -> Java –> Build Path –> User Libraries and click "New"
+- type a name for the library
+- Now select your new user library and click Add External JARs....
+- Newer OpenCv versions have their jars here for example: "/opencv-3.1.0/build/bin/opencv-310.jar"
+- (Important!) In path "/opencv-3.1.0/build/lib" change name of "libopencv_java310.so" to "libopencv_java310.dylib".
+- Back in Eclipse: After adding the JAR, extend the opencv-310.jar and select Native library location and press Edit....
+- Select External Folder... and browse to select the folder where the renamed file "libopencv_java310.dylib" is located
+	(Path: "/opencv-3.1.0/build/lib")
+- Add this new Library to existing java project: Right-click the project and go to "properties -> Java Build Path and select Add Library... 
+- select "User Library",  select the newly created library and lastly click Finish.
+
+-------------Alternative: Building with brew-------------
+
+http://www.learnopencv.com/install-opencv-3-on-yosemite-osx-10-10-x/
+
+Summary:
+- install Homebrew: Terminal: 
+	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+- then: $ brew install wget
+- double check with: $ brew update && brew doctor
+- install Cmake: $ brew install cmake
+- tap to science: $ brew tap homebrew/science
+- install opencv3 and create JAR for Java: $ brew install opencv3 --with-java
+- after success: copy file location to a more accessible location: "cd" to location and "open ." to open folder
+- the JAR and the .so file should be  located under: "/3.1.0/share/OpenCV/java"
+- (Important!): Change the ending of the .so file to .dylib
+- continue with Part 2 above (Linking Libraries in Eclipse)
+
+
+
