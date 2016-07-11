@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channel;
 import java.nio.channels.DatagramChannel;
 
+import client_v5.compression.Compression;
 import client_v5.gui.Gui;
 import client_v5.video.Frame;
 import client_v5.video.Video;
@@ -78,7 +79,7 @@ public class UdpReceiver implements Runnable {
                     
                 }while(remaining > 0);
                 
-                Frame frame = new Frame(pixels);
+                Frame frame = new Frame(Compression.decode(pixels));
                 Gui.writeImg(frame, width, height);
                 
                 Thread.sleep(16);

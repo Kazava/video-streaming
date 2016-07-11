@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 
+import server_v5.compression.Compression;
 import server_v5.video.Video;
 
 public class UdpSender implements Runnable {
@@ -37,7 +38,7 @@ public class UdpSender implements Runnable {
             
             while(0 < video.getFrames(1)){
                 
-                pixels = video.getFrames().poll().getPixels();
+                pixels = Compression.encode(video.getFrames().poll().getPixels());
                 
                 int remaining = pixels.length;
                 int numOfPixels = pixels.length;
