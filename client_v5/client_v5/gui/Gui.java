@@ -53,9 +53,9 @@ public class Gui extends Application{
 			public void handle(ActionEvent event) {
 				
 				Client client = new VideoStreamClient();
+				client.sendMessage(CMD.PLAY);
 				new Thread((Runnable) client).start();
 				
-				client.sendMessage(CMD.PLAY);
 
 			}
 			

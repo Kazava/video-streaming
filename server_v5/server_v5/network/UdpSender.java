@@ -26,7 +26,7 @@ public class UdpSender implements Runnable {
 	public void sendUdp(){
 		try {
 			udpChannel = DatagramChannel.open();
-			udpChannel.connect(new InetSocketAddress("localhost", 9999));
+			//udpChannel.connect(new InetSocketAddress("localhost", 9999));
 			buffer = ByteBuffer.allocate(video.getByteSizeOfFrame()); // The new buffer's capacity, in bytes
 			
 			int size = video.getFramesSize();
@@ -48,7 +48,8 @@ public class UdpSender implements Runnable {
 
 				buffer.flip();
 				
-				udpChannel.write(buffer);
+				//udpChannel.write(buffer);
+				udpChannel.send(buffer, new InetSocketAddress("localhost", 9999));
 //				printBytes(buffer.array());
 				
 				try {
