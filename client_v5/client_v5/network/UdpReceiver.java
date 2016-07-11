@@ -22,8 +22,7 @@ public class UdpReceiver implements Runnable {
 	/*
 	 * Just reads udp messages
 	 */
-	UdpReceiver(DatagramChannel channel) {
-		this.udpChannel = channel;
+	UdpReceiver() {
 		isAlive = true;
 	}
 	
@@ -49,8 +48,8 @@ public class UdpReceiver implements Runnable {
 		System.out.println("waits for packages ...");
 		
 		try {
-			DatagramChannel c = DatagramChannel.open();
-			c.socket().bind(new InetSocketAddress("localhost",9999));
+			udpChannel = DatagramChannel.open();
+			udpChannel.socket().bind(new InetSocketAddress("localhost",9999));
 
 			while(isAlive){
 				
@@ -58,7 +57,7 @@ public class UdpReceiver implements Runnable {
 				
 				byteBuffer.clear();
 
-				c.receive(byteBuffer);
+				udpChannel.receive(byteBuffer);
 				
 				byteBuffer.flip();
 				

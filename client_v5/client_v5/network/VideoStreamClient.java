@@ -18,18 +18,12 @@ public class VideoStreamClient implements Runnable, Client {
 	public VideoStreamClient() {}
 	
 	public void startListening() {
-		try {
-			this.isAlive = true;
-			System.out.println("Client starts receiving...");
-	
-			DatagramChannel channel;
-			channel = DatagramChannel.open();
-
-			channel.socket().bind(new InetSocketAddress(9002));
-			channel.configureBlocking(false);
-			
-			UdpReceiver udpReceiver = new UdpReceiver(channel);
-			new Thread(udpReceiver).start();
+		
+		this.isAlive = true;
+		System.out.println("Client starts receiving...");
+		
+		UdpReceiver udpReceiver = new UdpReceiver();
+		new Thread(udpReceiver).start();
 			
 	//			while (isAlive) {
 	//
@@ -46,10 +40,7 @@ public class VideoStreamClient implements Runnable, Client {
 		//				System.out.println("meh");
 		//			}
 	//			}
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+
 	}
 	
 	public void stopListening() {
