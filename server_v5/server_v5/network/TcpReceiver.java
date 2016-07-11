@@ -16,6 +16,10 @@ public class TcpReceiver implements Runnable {
 	int ordinal;
 	CMD cmd;
 	
+	UdpSender sender;
+	
+	private Thread thread = null;
+	
 	public TcpReceiver(Channel channel) {
 		this.tcpChannel = (ServerSocketChannel) channel;
 	}
@@ -48,8 +52,13 @@ public class TcpReceiver implements Runnable {
 	public void sendUdpVideo(){
 		switch(cmd){
 		case PLAY:
-			UdpSender sender = new UdpSender(new Video(new File("res/Perception.mp4"), 720, 480));
-			new Thread(sender).start();
+			sender = new UdpSender(new Video(new File("res/Perception.mp4"), 720, 480));
+			thread = new Thread(sender);
+			thread.start();
+			break;
+		case PAUSE:
+			break;
+		case STOP:
 			break;
 		}
 	}

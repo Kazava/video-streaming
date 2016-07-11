@@ -36,7 +36,7 @@ public class UdpSender implements Runnable {
             udpChannel = DatagramChannel.open();
             buffer = ByteBuffer.allocate(packageSize * 4);
             
-            while(0 < video.getFrames(1)){
+            while(0 < video.getFrames(1) && !isPaused){
                 
                 pixels = Compression.encode(video.getFrames().poll().getPixels());
                 
@@ -91,6 +91,23 @@ public class UdpSender implements Runnable {
 			System.out.print(String.format("%02X ",  in[i]));
 		}
 		System.out.print("\n");
+	}
+
+	public void stop() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void pause() {
+		isPaused = isPaused ? false : true;
+		if(isPaused)
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else this.notify();
 	}
 	
 	

@@ -31,11 +31,13 @@ public class Gui extends Application{
 	Scene scene;
 	BorderPane layout;
 	
+	Client client;
+	
 	private static ImageView imgView;
 	private static WritableImage img;
 	private static PixelWriter pw;
 	
-	Button play;
+	Button play, pause, stop;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -46,22 +48,34 @@ public class Gui extends Application{
 		layout = new BorderPane();
 		
 		play = new Button("Play");
+		pause = new Button("Pause");
+		stop = new Button("Stop");
 
+		client = new VideoStreamClient();
 		
-		 play.setOnAction(new EventHandler<ActionEvent>() {
-			 
-			@Override
+		play.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				
-				Client client = new VideoStreamClient();
 				client.sendMessage(CMD.PLAY);
 				new Thread((Runnable) client).start();
 			}
-			
+		});
+		 
+		 pause.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				client.sendMessage(CMD.PAUSE);
+			}
+		});
+		 
+		 stop.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				client.sendMessage(CMD.PLAY);
+			}
 		});
 		
 		HBox toolbar = new HBox();
 		toolbar.getChildren().add(play);
+		toolbar.getChildren().add(pause);
+		toolbar.getChildren().add(stop);
 		toolbar.setAlignment(Pos.CENTER);
 		toolbar.setMinHeight(50);
 		toolbar.getStyleClass().add("toolbar");
