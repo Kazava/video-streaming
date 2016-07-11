@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -40,7 +41,7 @@ public class Gui extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		this.stage = primaryStage;
 		
-		initVideo(600, 400);
+		initVideo(720, 480);
 		
 		layout = new BorderPane();
 		
@@ -55,8 +56,6 @@ public class Gui extends Application{
 				Client client = new VideoStreamClient();
 				client.sendMessage(CMD.PLAY);
 				new Thread((Runnable) client).start();
-				
-
 			}
 			
 		});
@@ -65,6 +64,7 @@ public class Gui extends Application{
 		toolbar.getChildren().add(play);
 		toolbar.setAlignment(Pos.CENTER);
 		toolbar.setMinHeight(50);
+		toolbar.getStyleClass().add("toolbar");
 		
 		StackPane stack = new StackPane();
 		
@@ -74,6 +74,7 @@ public class Gui extends Application{
 		layout.setCenter(stack);
 		
 		scene = new Scene(layout);
+        scene.getStylesheets().add(Gui.class.getResource("style.css").toExternalForm());
 		
 		stage.setTitle("Video Streaming - Client");
 		stage.centerOnScreen();
