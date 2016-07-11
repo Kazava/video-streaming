@@ -2,6 +2,7 @@ package client_v5.network;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channel;
 import java.nio.channels.DatagramChannel;
@@ -41,41 +42,42 @@ public class UdpReceiver implements Runnable {
 		
 		int size = width*height;
 		
-		this.byteBuffer = ByteBuffer.allocate(size * 8);
+		byteBuffer = ByteBuffer.allocate(size * 8);
 		
 		int[] pixels = new int[size];
 		
-		while(isAlive){
-			
-	        try {
-				Thread.sleep(32);
-				this.byteBuffer.clear();
-				this.udpChannel.receive(byteBuffer);	
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}   	
+		System.out.println("waits for packages ...");
+		
+		try {
+			DatagramChannel c = DatagramChannel.open();
+			c.socket().bind(new InetSocketAddress("localhost",9999));
 
+			while(isAlive){
+				
+				Thread.sleep(16);
+				
+				byteBuffer.clear();
 
-			for(int i = 0; i < size; i++){
-				pixels[i] = byteBuffer.getInt();
+				c.receive(byteBuffer);
+				
+				byteBuffer.flip();
+				
+				int temp = 0;
+				
+				for(int i = 0; i < size; i++){
+					temp = byteBuffer.getInt();
+					pixels[i] = (0xff000000 | temp);
+				}
+				
+				if((temp & 0xff) != 0x00)System.out.println("Client just received some bytes!");
+				
+				Frame frame = new Frame(pixels);
+				Gui.writeImg(frame, width, height);
+				
 			}
-			
-			Frame frame = new Frame(pixels);
-			
-			if(pixels[0] != 0x00){
-				System.out.println("pixels " + pixels[0]);
-			}
-			
-			Gui.writeImg(frame, width, height);
-			
+		} catch (IOException | InterruptedException e1) {
+			e1.printStackTrace();
 		}
-		
-		
-		
 		
 	}
 	

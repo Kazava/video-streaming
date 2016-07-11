@@ -52,11 +52,11 @@ public class Gui extends Application{
 			@Override
 			public void handle(ActionEvent event) {
 				
-				System.out.println("Yayyy");
-				
 				Client client = new VideoStreamClient();
-				client.sendMessage(CMD.PLAY);
 				new Thread((Runnable) client).start();
+				
+				client.sendMessage(CMD.PLAY);
+
 			}
 			
 		});

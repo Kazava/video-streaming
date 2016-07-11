@@ -25,7 +25,7 @@ public class VideoStreamClient implements Runnable, Client {
 			DatagramChannel channel;
 			channel = DatagramChannel.open();
 
-			channel.socket().bind(new InetSocketAddress("localhost", 9002));
+			channel.socket().bind(new InetSocketAddress(9002));
 			channel.configureBlocking(false);
 			
 			UdpReceiver udpReceiver = new UdpReceiver(channel);
