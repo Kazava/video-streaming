@@ -1,0 +1,19 @@
+/* Style sheet of the graphical user interface of the server */
+
+Button{
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-background-color: transparent;
+}
+
+Button:hover{
+	-fx-text-fill: red;
+}
+
+.toolbar {
+    -fx-background-color: linear-gradient(#295051 0%, #333333 100%);
+}
+
+.toolbar {
+    -fx-background-color: #333333;
+}

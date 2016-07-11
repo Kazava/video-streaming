@@ -11,10 +11,11 @@ public class VideoStreamServer implements Runnable, Server {
 	private boolean isAlive;
 	private Network network;
 
-	public VideoStreamServer() {}
+	public VideoStreamServer() {
+		this.isAlive = true;
+	}
 	
 	public void startListening() {
-		this.isAlive = true;
 		while (isAlive) {
 			Channel channel;
 			channel = network.choosingConnection(); // first stop here!
@@ -36,7 +37,12 @@ public class VideoStreamServer implements Runnable, Server {
 	
 	public void stopListening() {
 		this.isAlive = false;
-		System.out.println("...Server stopped.");
+		System.out.println("--> Server stopped listening");
+	}
+	
+	public void restartListening() {
+		this.isAlive = true;
+		System.out.println("--> Server is listening again!");
 	}
 
 	@Override
@@ -45,4 +51,5 @@ public class VideoStreamServer implements Runnable, Server {
 		System.out.println("Server running...");
 		startListening();
 	}
+
 }

@@ -1,17 +1,15 @@
 package server_v5.main;
 
 import org.opencv.core.Core;
-
-import server_v5.network.Server;
-import server_v5.network.VideoStreamServer;
+import javafx.application.Application;
+import server_v5.gui.Gui;
+import server_v5.main.Main;
 
 public class Main {
-	public static void main(String[] args) {
-		
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		
-		Server server = new VideoStreamServer();
-		new Thread((Runnable) server).start();
-	}
+	static Gui gui;
 
+	public static void main(String[] args) {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		Application.launch(Gui.class, args);
+	}
 }
