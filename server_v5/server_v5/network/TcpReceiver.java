@@ -48,7 +48,7 @@ public class TcpReceiver implements Runnable {
 	public void sendUdpVideo(){
 		switch(cmd){
 		case PLAY:
-			UdpSender sender = new UdpSender(new Video(new File("res/Perception.mp4"), 42, 32));
+			UdpSender sender = new UdpSender(new Video(new File("res/Perception.mp4"), 720, 480));
 			new Thread(sender).start();
 			break;
 		}

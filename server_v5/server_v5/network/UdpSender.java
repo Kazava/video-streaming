@@ -21,33 +21,60 @@ public class UdpSender implements Runnable {
 	public void run() { sendUdp(); }
 	
 	public void sendUdp(){
-		try {
-			udpChannel = DatagramChannel.open();
-			buffer = ByteBuffer.allocate(video.getByteSizeOfFrame()); // The new buffer's capacity, in bytes
-			
-			int size = video.getFramesSize();
-			int[] pixels;
-			
-			while(0 < video.getFrames(1)){
-				buffer.clear();
-				pixels = video.getFrames().poll().getPixels();
-				for(int i = 0; i < size; i++){
-					buffer.putInt(pixels[i]);
-				}
-				buffer.flip();
-				udpChannel.send(buffer, new InetSocketAddress("localhost", 9999));
-//				printBytes(buffer.array()); // for debugging
-				try {
-					Thread.sleep(32);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			udpChannel.close();
-			System.out.println("Server finished sending video.");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        try {
+            /**
+             * bei 420 x 320 pixels wird ein image unkomprimiert
+             * in 68 UDP packages verteilt.
+             */
+
+            int[] pixels;
+            int packageSize = 2000;
+            
+            udpChannel = DatagramChannel.open();
+            buffer = ByteBuffer.allocate(packageSize * 4);
+            
+            while(0 < video.getFrames(1)){
+                
+                pixels = video.getFrames().poll().getPixels();
+                
+                int remaining = pixels.length;
+                int numOfPixels = pixels.length;
+                int headerSize = 4;
+                int rounds = 0;
+                
+                while(remaining > 0){
+                    buffer.clear();
+                    
+                    /** send header (4 bytes)**/
+                    buffer.putInt(numOfPixels); // number of pixels in per frame
+                    buffer.putInt(video.getWidth()); // number of pixels width per frame
+                    buffer.putInt(video.getHeight()); // number of pixels height per frame
+                    buffer.putInt(remaining); // number of pixels left including the the package data
+                    
+                    int fill = packageSize - headerSize;
+                    for(int i = 0; i < fill && remaining > 0; i++){
+                        remaining--;
+                        buffer.putInt(pixels[remaining]);
+                    }
+                    buffer.flip();
+                    udpChannel.send(buffer, new InetSocketAddress("localhost", 9999));
+                    
+                }
+                
+                try {
+                    Thread.sleep(32);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            
+            udpChannel.close();
+            System.out.println("Server finished sending video.");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 	}
 	
 	// For Debugging ByteBuffer:
