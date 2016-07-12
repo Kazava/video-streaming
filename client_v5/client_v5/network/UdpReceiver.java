@@ -79,7 +79,7 @@ public class UdpReceiver implements Runnable {
                     
                 }while(remaining > 0);
                 
-                Frame frame = new Frame(Compression.decode(pixels));
+                Frame frame = new Frame(Compression.decode(pixels, width, height));
                 Gui.writeImg(frame, width, height);
                 
                 Thread.sleep(16);

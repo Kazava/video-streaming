@@ -37,8 +37,11 @@ public class UdpSender implements Runnable {
             buffer = ByteBuffer.allocate(packageSize * 4);
             
             while(0 < video.getFrames(1) && !isPaused){
+            	
+            	int width = video.getWidth();
+            	int height = video.getHeight();
                 
-                pixels = Compression.encode(video.getFrames().poll().getPixels());
+                pixels = Compression.encode(video.getFrames().poll().getPixels(), width, height );
                 
                 int remaining = pixels.length;
                 int numOfPixels = pixels.length;
@@ -50,8 +53,8 @@ public class UdpSender implements Runnable {
                     
                     /** send header (4 bytes)**/
                     buffer.putInt(numOfPixels); // number of pixels in per frame
-                    buffer.putInt(video.getWidth()); // number of pixels width per frame
-                    buffer.putInt(video.getHeight()); // number of pixels height per frame
+                    buffer.putInt(width); // number of pixels width per frame
+                    buffer.putInt(height); // number of pixels height per frame
                     buffer.putInt(remaining); // number of pixels left including the the package data
                     
                     int fill = packageSize - headerSize;
